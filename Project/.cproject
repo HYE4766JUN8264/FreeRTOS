@@ -35,6 +35,11 @@
 								<option id="com.freescale.s32ds.cross.gnu.tool.c.compiler.option.debugging.format.1857904393" name="Debug format" superClass="com.freescale.s32ds.cross.gnu.tool.c.compiler.option.debugging.format" useByScannerDiscovery="true"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.libraries.929196910" name="Libraries support" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.libraries" useByScannerDiscovery="false" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.libraries.newlib_nano_noio" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.502470945" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/board}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${S32_SDK_PATH}/rtos/FreeRTOS_S32K/Source/include&quot;"/>
@@ -120,6 +125,11 @@
 								<option id="com.freescale.s32ds.cross.gnu.tool.assembler.option.debugging.level.928582166" name="Debug Level" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.libraries.1894007476" name="Libraries support" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.libraries" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.libraries.newlib_nano_noio" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.1715107341" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/board}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${S32_SDK_PATH}/rtos/FreeRTOS_S32K/Source/include&quot;"/>
@@ -206,6 +216,11 @@
 								<option id="com.freescale.s32ds.cross.gnu.tool.c.compiler.option.debugging.format.1857904393" name="Debug format" superClass="com.freescale.s32ds.cross.gnu.tool.c.compiler.option.debugging.format" useByScannerDiscovery="true"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.libraries.929196910" name="Libraries support" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.libraries" useByScannerDiscovery="false" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.c.compiler.option.target.libraries.newlib_nano_noio" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.502470945" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/board}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${S32_SDK_PATH}/rtos/FreeRTOS_S32K/Source/include&quot;"/>
@@ -291,6 +306,11 @@
 								<option id="com.freescale.s32ds.cross.gnu.tool.assembler.option.debugging.level.928582166" name="Debug Level" superClass="com.freescale.s32ds.cross.gnu.tool.assembler.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.libraries.1894007476" name="Libraries support" superClass="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.libraries" value="com.nxp.s32ds.cle.arm.mbs.arm32.bare.tool.assembler.option.target.libraries.newlib_nano_noio" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.both.asm.option.include.paths.1715107341" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/src}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/board}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${S32_SDK_PATH}/rtos/FreeRTOS_S32K/Source/include&quot;"/>
@@ -360,8 +380,9 @@
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.internal.core.toolchainSettings">
 		<COND_TOOLCHAIN_LIBRARIES/>
 		<COND_TOOLCHAIN_CUSTOM_OPTION/>
-		<COND_TOOLCHAIN_DEFINES>USING_OS_FREERTOS;USING_OS_FREERTOS;USING_OS_FREERTOS;USING_OS_FREERTOS;USING_OS_FREERTOS;</COND_TOOLCHAIN_DEFINES>
-		<COND_TOOLCHAIN_ASM_DEFINES>USING_OS_FREERTOS;USING_OS_FREERTOS;USING_OS_FREERTOS;USING_OS_FREERTOS;USING_OS_FREERTOS;</COND_TOOLCHAIN_ASM_DEFINES>
+		<COND_TOOLCHAIN_DEFINES>USING_OS_FREERTOS;</COND_TOOLCHAIN_DEFINES>
+		<COND_TOOLCHAIN_ASM_DEFINES>USING_OS_FREERTOS;</COND_TOOLCHAIN_ASM_DEFINES>
+		<COND_TOOLCHAIN_LIBRARIES_PATHS/>
 	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
@@ -379,9 +400,9 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.core">
-		<sdkComponents>platform.os.freertos;platform.os.freertos_heap_1</sdkComponents>
+		<sdkComponents>platform.os.freertos;platform.os.freertos_heap_1;platform.os.freertosS32K14x;platform.driver.lpuart;platform.driver.clock;platform.driver.interrupt_manager;platform.driver.pins;platform.driver.edma;platform.driver.osif;platform.driver.osif_freertos;platform.driver.powerS32K1xx</sdkComponents>
 	</storageModule>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.internal.core.toolchainScriptProfile">
-		<COND_TOOLCHAIN_COMPONENTS_OPTION>platform.os.freertos;platform.os.freertos_heap_1;</COND_TOOLCHAIN_COMPONENTS_OPTION>
+		<COND_TOOLCHAIN_COMPONENTS_OPTION>COPY=platform.os.freertosS32K14x;platform.driver.osif_freertos;platform.driver.powerS32K1xx;platform.os.freertos_heap_1;platform.driver.osif;platform.os.freertos;platform.driver.lpuart</COND_TOOLCHAIN_COMPONENTS_OPTION>
 	</storageModule>
 </cproject>

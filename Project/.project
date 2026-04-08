@@ -131,6 +131,11 @@
 			<locationURI>$%7BS32K144_SDK_4_0_3_PATH%7D/rtos/FreeRTOS_S32K/Source/timers.c</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/rtos/doxygen/freeRTOS.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/rtos/doxygen/freeRTOS.dox</locationURI>
+		</link>
+		<link>
 			<name>SDK/platform/devices/S32K144/include/S32K144.h</name>
 			<type>1</type>
 			<locationURI>$%7BS32K144_SDK_4_0_3_PATH%7D/platform/devices/S32K144/include/S32K144.h</locationURI>
@@ -261,6 +266,11 @@
 			<locationURI>$%7BS32K144_SDK_4_0_3_PATH%7D/rtos/FreeRTOS_S32K/Source/include/timers.h</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/rtos/osif/doxygen/osif.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/rtos/osif/doxygen/osif.dox</locationURI>
+		</link>
+		<link>
 			<name>SDK/platform/drivers/src/clock/S32K1xx/clock_S32K1xx.c</name>
 			<type>1</type>
 			<locationURI>$%7BS32K144_SDK_4_0_3_PATH%7D/platform/drivers/src/clock/S32K1xx/clock_S32K1xx.c</locationURI>
@@ -309,6 +319,46 @@
 			<name>SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F/portmacro.h</name>
 			<type>1</type>
 			<locationURI>$%7BS32K144_SDK_4_0_3_PATH%7D/rtos/FreeRTOS_S32K/Source/portable/GCC/ARM_CM4F/portmacro.h</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/clock/doxygen/clock_manager.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/clock/doxygen/clock_manager.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/edma/doxygen/edma_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/edma/doxygen/edma_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/interrupt/doxygen/interrupt.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/interrupt/doxygen/interrupt.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lpuart/doxygen/lpuart_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lpuart/doxygen/lpuart_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/pins/doxygen/pins.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/pins/doxygen/pins.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/power/doxygen/power_manager.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/power/doxygen/power_manager.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/clock/S32K1xx/doxygen/clock_S32K1xx.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/clock/S32K1xx/doxygen/clock_S32K1xx.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/power/S32K1xx/doxygen/power_manager_S32K1xx.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/power/S32K1xx/doxygen/power_manager_S32K1xx.dox</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>

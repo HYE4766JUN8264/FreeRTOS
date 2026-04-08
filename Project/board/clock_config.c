@@ -12,7 +12,7 @@
 
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 !!GlobalInfo
-product: Clocks v7.0
+product: Clocks v8.0
 processor: S32K144
 package_id: S32K144_LQFP100
 mcu_data: s32sdk_s32k1xx_rtm_403
@@ -34,75 +34,72 @@ processor_version: 0.0.0
 name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
-- {id: ADC0_CLK.outFreq, value: 8 MHz}
-- {id: ADC1_CLK.outFreq, value: 8 MHz}
 - {id: BUS_CLK.outFreq, value: 48 MHz}
 - {id: CLKOUT.outFreq, value: 48 MHz}
-- {id: CMP0_CLK.outFreq, value: 48 MHz}
 - {id: CORE_CLK.outFreq, value: 48 MHz}
-- {id: CRC0_CLK.outFreq, value: 48 MHz}
 - {id: DMA0_CLK.outFreq, value: 48 MHz}
 - {id: DMAMUX0_CLK.outFreq, value: 48 MHz}
 - {id: EIM0_CLK.outFreq, value: 48 MHz}
 - {id: ERM0_CLK.outFreq, value: 48 MHz}
-- {id: EWM0_CLK.outFreq, value: 48 MHz}
 - {id: FIRCDIV1_CLK.outFreq, value: 48 MHz}
 - {id: FIRCDIV2_CLK.outFreq, value: 48 MHz}
 - {id: FLASH_CLK.outFreq, value: 24 MHz}
-- {id: FLEXCAN0_CLK.outFreq, value: 48 MHz}
-- {id: FLEXCAN1_CLK.outFreq, value: 48 MHz}
-- {id: FLEXCAN2_CLK.outFreq, value: 48 MHz}
 - {id: FTFC0_CLK.outFreq, value: 24 MHz}
-- {id: FTM0_CLK.outFreq, value: 8 MHz}
-- {id: FTM1_CLK.outFreq, value: 8 MHz}
-- {id: FTM2_CLK.outFreq, value: 8 MHz}
-- {id: FTM3_CLK.outFreq, value: 8 MHz}
-- {id: FlexIO0_CLK.outFreq, value: 8 MHz}
-- {id: LPI2C0_CLK.outFreq, value: 8 MHz}
-- {id: LPIT0_CLK.outFreq, value: 8 MHz}
 - {id: LPO_1K_CLK.outFreq, value: 1 kHz}
 - {id: LPO_CLK.outFreq, value: 128 kHz}
-- {id: LPSPI0_CLK.outFreq, value: 8 MHz}
-- {id: LPSPI1_CLK.outFreq, value: 8 MHz}
-- {id: LPSPI2_CLK.outFreq, value: 8 MHz}
-- {id: LPTMR0_CLK.outFreq, value: 8 MHz}
 - {id: LPUART0_CLK.outFreq, value: 8 MHz}
 - {id: LPUART1_CLK.outFreq, value: 8 MHz}
 - {id: LPUART2_CLK.outFreq, value: 8 MHz}
 - {id: MPU0_CLK.outFreq, value: 48 MHz}
 - {id: MSCM0_CLK.outFreq, value: 48 MHz}
-- {id: PDB0_CLK.outFreq, value: 48 MHz}
-- {id: PDB1_CLK.outFreq, value: 48 MHz}
 - {id: PORTA_CLK.outFreq, value: 48 MHz}
 - {id: PORTB_CLK.outFreq, value: 48 MHz}
 - {id: PORTC_CLK.outFreq, value: 48 MHz}
 - {id: PORTD_CLK.outFreq, value: 48 MHz}
 - {id: PORTE_CLK.outFreq, value: 48 MHz}
-- {id: RTC0_CLK.outFreq, value: 48 MHz}
-- {id: RTC_CLK.outFreq, value: 48 MHz}
+- {id: RTC_CLK.outFreq, value: 8 MHz}
 - {id: SCGCLKOUT.outFreq, value: 48 MHz}
 - {id: SIRCDIV1_CLK.outFreq, value: 8 MHz}
 - {id: SIRCDIV2_CLK.outFreq, value: 8 MHz}
 - {id: SOSCDIV1_CLK.outFreq, value: 8 MHz}
 - {id: SOSCDIV2_CLK.outFreq, value: 8 MHz}
-- {id: SPLLDIV1_CLK.outFreq, value: 56 MHz}
-- {id: SPLLDIV2_CLK.outFreq, value: 28 MHz}
+- {id: SPLLDIV1_CLK.outFreq, value: 112 MHz}
+- {id: SPLLDIV2_CLK.outFreq, value: 112 MHz}
 - {id: SPLL_CLK_OUT.outFreq, value: 112 MHz}
 - {id: SYS_CLK.outFreq, value: 48 MHz}
 - {id: TRACE_CLK.outFreq, value: 48 MHz}
 settings:
+- {id: ADC0_CGC, value: Disabled}
+- {id: ADC1_CGC, value: Disabled}
+- {id: CMP0_CGC, value: Disabled}
+- {id: CRC_CGC, value: Disabled}
+- {id: EWM_CGC, value: Disabled}
+- {id: FLEXCAN0_CGC, value: Disabled}
+- {id: FLEXCAN1_CGC, value: Disabled}
+- {id: FLEXCAN2_CGC, value: Disabled}
+- {id: FTM0_CGC, value: Disabled}
+- {id: FTM1_CGC, value: Disabled}
+- {id: FTM2_CGC, value: Disabled}
+- {id: FTM3_CGC, value: Disabled}
+- {id: FlexIO0_CGC, value: Disabled}
 - {id: 'HSRUN:SCG.DIVBUS.scale', value: '2', locked: true}
 - {id: 'HSRUN:SCG.DIVCORE.scale', value: '1', locked: true}
 - {id: 'HSRUN:SCG.DIVSLOW.scale', value: '4', locked: true}
 - {id: 'HSRUN:SCG.SCSSEL.sel', value: SCG.SPLL_CLK}
+- {id: LPI2C0_CGC, value: Disabled}
+- {id: LPIT0_CGC, value: Disabled}
+- {id: LPSPI0_CGC, value: Disabled}
+- {id: LPSPI1_CGC, value: Disabled}
+- {id: LPSPI2_CGC, value: Disabled}
+- {id: LPTMR0_CGC, value: Disabled}
 - {id: PCC.LPTMR0_FRAC.scale, value: '1', locked: true}
-- {id: PCC.LPUART0_CLK_SEL.sel, value: SCG.SOSCDIV2_CLK}
-- {id: PCC.LPUART1_CLK_SEL.sel, value: SCG.SOSCDIV2_CLK}
-- {id: PCC.LPUART2_CLK_SEL.sel, value: SCG.SOSCDIV2_CLK}
 - {id: PCC.PREDIV.scale, value: '1', locked: true}
 - {id: PCC.PREDIVTRACE.scale, value: '1', locked: true}
 - {id: PCC.TRACE_FRAC.scale, value: '1', locked: true}
-- {id: RTCCLKSEL.sel, value: SCG.FIRCDIV1_CLK}
+- {id: PDB0_CGC, value: Disabled}
+- {id: PDB1_CGC, value: Disabled}
+- {id: RTC_CGC, value: Disabled}
+- {id: RTC_CR_CPE_CFG, value: 'yes'}
 - {id: 'RUN:SCG.DIVBUS.scale', value: '1', locked: true}
 - {id: 'RUN:SCG.DIVCORE.scale', value: '1', locked: true}
 - {id: 'RUN:SCG.DIVSLOW.scale', value: '2', locked: true}
@@ -116,13 +113,15 @@ settings:
 - {id: SCG.SIRCDIV2.scale, value: '1', locked: true}
 - {id: SCG.SOSCDIV1.scale, value: '1', locked: true}
 - {id: SCG.SOSCDIV2.scale, value: '1', locked: true}
-- {id: SCG.SPLLDIV1.scale, value: '2', locked: true}
-- {id: SCG.SPLLDIV2.scale, value: '4', locked: true}
+- {id: SCG.SPLLDIV1.scale, value: '1', locked: true}
+- {id: SCG.SPLLDIV2.scale, value: '1', locked: true}
 - {id: SCG.SPLL_mul.scale, value: '28', locked: true}
 - {id: 'VLPR:SCG.DIVBUS.scale', value: '1', locked: true}
 - {id: 'VLPR:SCG.DIVCORE.scale', value: '2', locked: true}
 - {id: 'VLPR:SCG.DIVSLOW.scale', value: '4', locked: true}
 - {id: 'VLPR:SCG.SCSSEL.sel', value: SCG.SIRC}
+sources:
+- {id: RTC.RTC_CLK_EXT_IN.outFreq, value: 32.768 kHz}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
 /* *************************************************************************
@@ -131,128 +130,23 @@ settings:
 /*! @brief peripheral clock configuration 0 */
 peripheral_clock_config_t peripheralClockConfig0[NUM_OF_PERIPHERAL_CLOCKS_0] = {
     {
-        .clockName = ADC0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = ADC1_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = LPSPI0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = LPSPI1_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = LPSPI2_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
         .clockName = LPUART0_CLK,
         .clkGate = true,
-        .clkSrc = CLK_SRC_SOSC_DIV2,
+        .clkSrc = CLK_SRC_SIRC_DIV2,
         .frac = MULTIPLY_BY_ONE,
         .divider = DIVIDE_BY_ONE,
     },
     {
         .clockName = LPUART1_CLK,
         .clkGate = true,
-        .clkSrc = CLK_SRC_SOSC_DIV2,
+        .clkSrc = CLK_SRC_SIRC_DIV2,
         .frac = MULTIPLY_BY_ONE,
         .divider = DIVIDE_BY_ONE,
     },
     {
         .clockName = LPUART2_CLK,
         .clkGate = true,
-        .clkSrc = CLK_SRC_SOSC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = LPI2C0_CLK,
-        .clkGate = true,
         .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = LPIT0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = LPTMR0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FTM0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV1,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FTM1_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV1,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FTM2_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV1,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FTM3_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV1,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FLEXIO0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_SIRC_DIV2,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = CMP0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = CRC0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
         .frac = MULTIPLY_BY_ONE,
         .divider = DIVIDE_BY_ONE,
     },
@@ -264,56 +158,7 @@ peripheral_clock_config_t peripheralClockConfig0[NUM_OF_PERIPHERAL_CLOCKS_0] = {
         .divider = DIVIDE_BY_ONE,
     },
     {
-        .clockName = EWM0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
         .clockName = FTFC0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = PDB0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = PDB1_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = RTC0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FlexCAN0_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FlexCAN1_CLK,
-        .clkGate = true,
-        .clkSrc = CLK_SRC_OFF,
-        .frac = MULTIPLY_BY_ONE,
-        .divider = DIVIDE_BY_ONE,
-    },
-    {
-        .clockName = FlexCAN2_CLK,
         .clkGate = true,
         .clkSrc = CLK_SRC_OFF,
         .frac = MULTIPLY_BY_ONE,
@@ -405,8 +250,8 @@ clock_manager_user_config_t clockMan1_InitConfig0 = {
             .prediv = (uint8_t)SCG_SPLL_CLOCK_PREDIV_BY_1,/* Divided by 1 */
             .mult = (uint8_t)SCG_SPLL_CLOCK_MULTIPLY_BY_28,/* Multiply Factor is 28 */
             .src = 0U,
-            .div1 = SCG_ASYNC_CLOCK_DIV_BY_2,     /* System PLL Clock Divider 1: divided by 2 */
-            .div2 = SCG_ASYNC_CLOCK_DIV_BY_4,     /* System PLL Clock Divider 3: divided by 4 */
+            .div1 = SCG_ASYNC_CLOCK_DIV_BY_1,     /* System PLL Clock Divider 1: divided by 1 */
+            .div2 = SCG_ASYNC_CLOCK_DIV_BY_1,     /* System PLL Clock Divider 3: divided by 1 */
         },
         .clockOutConfig =
         {
@@ -459,7 +304,7 @@ clock_manager_user_config_t clockMan1_InitConfig0 = {
             .enableLpo1k = true, /*!< LPO1KCLKEN    */
             .enableLpo32k = true, /*!< LPO32KCLKEN   */
             .sourceLpoClk = SIM_LPO_CLK_SEL_LPO_128K,/* 128 kHz LPO clock */
-            .sourceRtcClk = SIM_RTCCLK_SEL_FIRCDIV1_CLK,/* FIRCDIV1 clock */
+            .sourceRtcClk = SIM_RTCCLK_SEL_SOSCDIV1_CLK,/* SOSCDIV1 clock */
         },
         .platGateConfig =
         {

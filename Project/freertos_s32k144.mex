@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding= "UTF-8" ?>
+<configuration name="S32K144" xsi:schemaLocation="http://mcuxpresso.nxp.com/XSD/mex_configuration_10 http://mcuxpresso.nxp.com/XSD/mex_configuration_10.xsd" uuid="41eae3c2-92e6-4519-92e4-331eea55fb27" version="10" xmlns="http://mcuxpresso.nxp.com/XSD/mex_configuration_10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <common>
+      <processor>S32K144</processor>
+      <package>S32K144_LQFP100</package>
+      <mcu_data>s32sdk_s32k1xx_rtm_403</mcu_data>
+      <cores selected="core0">
+         <core name="Cortex-M4" id="core0" description=""/>
+      </cores>
+      <description>Configuration imported from freertos_s32k144</description>
+   </common>
+   <preferences>
+      <validate_boot_init_only>true</validate_boot_init_only>
+      <generate_extended_information>false</generate_extended_information>
+      <generate_code_modified_registers_only>false</generate_code_modified_registers_only>
+      <update_include_paths>true</update_include_paths>
+   </preferences>
+   <tools>
+      <pins name="Pins" version="10.0" enabled="true" update_project_code="true">
+         <generated_project_files>
+            <file path="board/pin_mux.c" update_enabled="true"/>
+            <file path="board/pin_mux.h" update_enabled="true"/>
+         </generated_project_files>
+         <pins_profile>
+            <processor_version>0.0.0</processor_version>
+            <power_domains/>
+            <pin_labels>
+               <pin_label pin_num="68" pin_signal="PTB12" label="BTN0" identifier="BTN0"/>
+            </pin_labels>
+         </pins_profile>
+         <functions_list>
+            <function name="BOARD_InitPins">
+               <description>Configures pin routing and optionally pin electrical features.</description>
+               <options>
+                  <callFromInitBoot>true</callFromInitBoot>
+                  <coreID>core0</coreID>
+               </options>
+               <dependencies/>
+               <pins>
+                  <pin peripheral="PORTD" signal="port, 16" pin_num="21" pin_signal="PTD16">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTD" signal="port, 15" pin_num="22" pin_signal="PTD15">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTC" signal="port, 13" pin_num="49" pin_signal="PTC13">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTC" signal="port, 0" pin_num="40" pin_signal="PTC0">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="PORTC" signal="port, 1" pin_num="39" pin_signal="PTC1">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPUART1" signal="rxd" pin_num="81" pin_signal="PTC6"/>
+                  <pin peripheral="LPUART1" signal="txd" pin_num="80" pin_signal="PTC7">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+               </pins>
+            </function>
+         </functions_list>
+      </pins>
+      <clocks name="Clocks" version="8.0" enabled="true" update_project_code="true">
+         <generated_project_files>
+            <file path="board/clock_config.c" update_enabled="true"/>
+            <file path="board/clock_config.h" update_enabled="true"/>
+         </generated_project_files>
+         <clocks_profile>
+            <processor_version>0.0.0</processor_version>
+         </clocks_profile>
+         <clock_configurations>
+            <clock_configuration name="BOARD_BootClockRUN">
+               <description></description>
+               <options/>
+               <dependencies>
+                  <dependency resourceType="PinSignal" resourceId="SCG.EXTAL" description="&apos;EXTAL&apos; (Pins tool id: SCG.EXTAL, Clocks tool id: SCG.EXTAL) needs to be routed" problem_level="1" source="Clocks:BOARD_BootClockRUN">
+                     <feature name="routed" evaluation="">
+                        <data>true</data>
+                     </feature>
+                     <feature name="direction" evaluation="">
+                        <data>INPUT</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PinSignal" resourceId="SCG.EXTAL" description="&apos;EXTAL&apos; (Pins tool id: SCG.EXTAL, Clocks tool id: SCG.EXTAL) needs to have &apos;INPUT&apos; direction" problem_level="1" source="Clocks:BOARD_BootClockRUN">
+                     <feature name="direction" evaluation="">
+                        <data>INPUT</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PinSignal" resourceId="SCG.XTAL" description="&apos;XTAL&apos; (Pins tool id: SCG.XTAL, Clocks tool id: SCG.XTAL) needs to be routed" problem_level="1" source="Clocks:BOARD_BootClockRUN">
+                     <feature name="routed" evaluation="">
+                        <data>true</data>
+                     </feature>
+                     <feature name="direction" evaluation="">
+                        <data>OUTPUT</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PinSignal" resourceId="SCG.XTAL" description="&apos;XTAL&apos; (Pins tool id: SCG.XTAL, Clocks tool id: SCG.XTAL) needs to have &apos;OUTPUT&apos; direction" problem_level="1" source="Clocks:BOARD_BootClockRUN">
+                     <feature name="direction" evaluation="">
+                        <data>OUTPUT</data>
+                     </feature>
+                  </dependency>
+               </dependencies>
+               <clock_sources>
+                  <clock_source id="RTC.RTC_CLK_EXT_IN.outFreq" value="32.768 kHz" locked="false" enabled="false"/>
+               </clock_sources>
+               <clock_outputs>
+                  <clock_output id="BUS_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="CLKOUT.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="CORE_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="DMA0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="DMAMUX0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="EIM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="ERM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FIRCDIV1_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FIRCDIV2_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FLASH_CLK.outFreq" value="24 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FTFC0_CLK.outFreq" value="24 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPO_1K_CLK.outFreq" value="1 kHz" locked="false" accuracy=""/>
+                  <clock_output id="LPO_CLK.outFreq" value="128 kHz" locked="false" accuracy=""/>
+                  <clock_output id="LPUART0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPUART1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPUART2_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="MPU0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="MSCM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PORTA_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PORTB_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PORTC_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PORTD_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PORTE_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="RTC_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SCGCLKOUT.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SIRCDIV1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SIRCDIV2_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SOSCDIV1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SOSCDIV2_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SPLLDIV1_CLK.outFreq" value="112 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SPLLDIV2_CLK.outFreq" value="112 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SPLL_CLK_OUT.outFreq" value="112 MHz" locked="false" accuracy=""/>
+                  <clock_output id="SYS_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="TRACE_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+               </clock_outputs>
+               <clock_settings>
+                  <setting id="ADC0_CGC" value="Disabled" locked="false"/>
+                  <setting id="ADC1_CGC" value="Disabled" locked="false"/>
+                  <setting id="CMP0_CGC" value="Disabled" locked="false"/>
+                  <setting id="CRC_CGC" value="Disabled" locked="false"/>
+                  <setting id="EWM_CGC" value="Disabled" locked="false"/>
+                  <setting id="FLEXCAN0_CGC" value="Disabled" locked="false"/>
+                  <setting id="FLEXCAN1_CGC" value="Disabled" locked="false"/>
+                  <setting id="FLEXCAN2_CGC" value="Disabled" locked="false"/>
+                  <setting id="FTM0_CGC" value="Disabled" locked="false"/>
+                  <setting id="FTM1_CGC" value="Disabled" locked="false"/>
+                  <setting id="FTM2_CGC" value="Disabled" locked="false"/>
+                  <setting id="FTM3_CGC" value="Disabled" locked="false"/>
+                  <setting id="FlexIO0_CGC" value="Disabled" locked="false"/>
+                  <setting id="HSRUN:SCG.DIVBUS.scale" value="2" locked="true"/>
+                  <setting id="HSRUN:SCG.DIVCORE.scale" value="1" locked="true"/>
+                  <setting id="HSRUN:SCG.DIVSLOW.scale" value="4" locked="true"/>
+                  <setting id="HSRUN:SCG.SCSSEL.sel" value="SCG.SPLL_CLK" locked="false"/>
+                  <setting id="LPI2C0_CGC" value="Disabled" locked="false"/>
+                  <setting id="LPIT0_CGC" value="Disabled" locked="false"/>
+                  <setting id="LPSPI0_CGC" value="Disabled" locked="false"/>
+                  <setting id="LPSPI1_CGC" value="Disabled" locked="false"/>
+                  <setting id="LPSPI2_CGC" value="Disabled" locked="false"/>
+                  <setting id="LPTMR0_CGC" value="Disabled" locked="false"/>
+                  <setting id="PCC.LPTMR0_FRAC.scale" value="1" locked="true"/>
+                  <setting id="PCC.PREDIV.scale" value="1" locked="true"/>
+                  <setting id="PCC.PREDIVTRACE.scale" value="1" locked="true"/>
+                  <setting id="PCC.TRACE_FRAC.scale" value="1" locked="true"/>
+                  <setting id="PDB0_CGC" value="Disabled" locked="false"/>
+                  <setting id="PDB1_CGC" value="Disabled" locked="false"/>
+                  <setting id="RTC_CGC" value="Disabled" locked="false"/>
+                  <setting id="RTC_CR_CPE_CFG" value="yes" locked="false"/>
+                  <setting id="RUN:SCG.DIVBUS.scale" value="1" locked="true"/>
+                  <setting id="RUN:SCG.DIVCORE.scale" value="1" locked="true"/>
+                  <setting id="RUN:SCG.DIVSLOW.scale" value="2" locked="true"/>
+                  <setting id="SCG.DIVBUS.scale" value="1" locked="true"/>
+                  <setting id="SCG.DIVCORE.scale" value="1" locked="true"/>
+                  <setting id="SCG.DIVSLOW.scale" value="2" locked="true"/>
+                  <setting id="SCG.FIRCDIV1.scale" value="1" locked="true"/>
+                  <setting id="SCG.FIRCDIV2.scale" value="1" locked="true"/>
+                  <setting id="SCG.PREDIV.scale" value="1" locked="true"/>
+                  <setting id="SCG.SIRCDIV1.scale" value="1" locked="true"/>
+                  <setting id="SCG.SIRCDIV2.scale" value="1" locked="true"/>
+                  <setting id="SCG.SOSCDIV1.scale" value="1" locked="true"/>
+                  <setting id="SCG.SOSCDIV2.scale" value="1" locked="true"/>
+                  <setting id="SCG.SPLLDIV1.scale" value="1" locked="true"/>
+                  <setting id="SCG.SPLLDIV2.scale" value="1" locked="true"/>
+                  <setting id="SCG.SPLL_mul.scale" value="28" locked="true"/>
+                  <setting id="VLPR:SCG.DIVBUS.scale" value="1" locked="true"/>
+                  <setting id="VLPR:SCG.DIVCORE.scale" value="2" locked="true"/>
+                  <setting id="VLPR:SCG.DIVSLOW.scale" value="4" locked="true"/>
+                  <setting id="VLPR:SCG.SCSSEL.sel" value="SCG.SIRC" locked="false"/>
+               </clock_settings>
+               <called_from_default_init>true</called_from_default_init>
+            </clock_configuration>
+         </clock_configurations>
+      </clocks>
+      <ddr name="DDR" version="1.0" enabled="false" update_project_code="true">
+         <generated_project_files/>
+         <components/>
+      </ddr>
+      <dcd name="DCD" version="1.0" enabled="false" update_project_code="true" isSelfTest="false">
+         <generated_project_files/>
+         <dcdx_profile>
+            <processor_version>N/A</processor_version>
+         </dcdx_profile>
+         <dcdx_configurations/>
+      </dcd>
+      <ivt name="IVT" version="1.0" enabled="false" update_project_code="true">
+         <generated_project_files/>
+         <ivt_profile>
+            <processor_version>N/A</processor_version>
+         </ivt_profile>
+      </ivt>
+      <quadspi name="QuadSPI" version="1.0" enabled="false" update_project_code="true">
+         <generated_project_files/>
+         <quadspi_profile>
+            <processor_version>N/A</processor_version>
+         </quadspi_profile>
+      </quadspi>
+      <periphs name="Peripherals" version="10.0" enabled="true" update_project_code="true">
+         <dependencies>
+            <dependency resourceType="SWComponent" resourceId="platform.os.freertos" description="freertos not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.os.freertos" description="Unsupported version of the freertos in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lpuart" description="LPUART Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lpuart" description="Unsupported version of the LPUART Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.osif" description="OSIF driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.osif" description="Unsupported version of the OSIF driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.powerS32K1xx" description="POWER_MANAGER driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.powerS32K1xx" description="Unsupported version of the POWER_MANAGER driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+         </dependencies>
+         <generated_project_files>
+            <file path="board/FreeRTOSConfig.h" update_enabled="true"/>
+            <file path="board/peripherals_FreeRTOS.c" update_enabled="true"/>
+            <file path="board/peripherals_FreeRTOS.h" update_enabled="true"/>
+            <file path="board/peripherals_lpuart_1.c" update_enabled="true"/>
+            <file path="board/peripherals_lpuart_1.h" update_enabled="true"/>
+            <file path="board/peripherals_osif_1.c" update_enabled="true"/>
+            <file path="board/peripherals_osif_1.h" update_enabled="true"/>
+            <file path="board/peripherals_power_manager_1.c" update_enabled="true"/>
+            <file path="board/peripherals_power_manager_1.h" update_enabled="true"/>
+            <file path="board/sdk_project_config.h" update_enabled="true"/>
+         </generated_project_files>
+         <peripherals_profile>
+            <processor_version>0.0.0</processor_version>
+         </peripherals_profile>
+         <functional_groups>
+            <functional_group name="BOARD_InitPeripherals" uuid="33afab84-3987-42cd-bca4-67126556733a" called_from_default_init="true" id_prefix="" core="core0">
+               <description></description>
+               <options/>
+               <dependencies/>
+               <instances>
+                  <instance name="FreeRTOS" uuid="73a6d1e9-0689-4ea0-99ac-2473555f91c1" type="freertos" type_id="freertos" mode="general" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="freertos_driver">
+                        <struct name="general_tab">
+                           <setting name="configCPU_CLOCK_HZ" value="48000000"/>
+                           <setting name="configTICK_RATE_HZ" value="1000"/>
+                           <setting name="configMAX_PRIORITIES" value="5"/>
+                           <setting name="configMINIMAL_STACK_SIZE" value="90"/>
+                           <setting name="configMAX_TASK_NAME_LEN" value="10"/>
+                           <setting name="configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY" value="1"/>
+                           <setting name="configUSE_16_BIT_TICKS" value="false"/>
+                           <setting name="configIDLE_SHOULD_YIELD" value="true"/>
+                           <setting name="configUSE_PREEMPTION" value="true"/>
+                           <setting name="configNUM_THREAD_LOCAL_STORAGE_POINTERS" value="0"/>
+                           <setting name="configUSE_PORT_OPTIMISED_TASK_SELECTION" value="true"/>
+                           <setting name="configUSE_TASK_NOTIFICATIONS" value="true"/>
+                           <setting name="configUSE_TIME_SLICING" value="true"/>
+                           <setting name="configUSE_NEWLIB_REENTRANT" value="false"/>
+                           <setting name="configENABLE_BACKWARD_COMPATIBILITY" value="true"/>
+                           <setting name="configUSE_POSIX_ERRNO" value="false"/>
+                           <setting name="configMESSAGE_BUFFER_LENGTH_TYPE" value=""/>
+                           <struct name="configASSERT_id">
+                              <setting name="boolConfigASSERT" value="true"/>
+                              <setting name="configASSERT" value="if((x)==0) { taskDISABLE_INTERRUPTS(); for( ;; ); }"/>
+                           </struct>
+                        </struct>
+                        <struct name="memory_tab">
+                           <setting name="configSUPPORT_STATIC_ALLOCATION" value="false"/>
+                           <setting name="configSUPPORT_DYNAMIC_ALLOCATION" value="true"/>
+                           <setting name="memory_scheme_id" value="heap1"/>
+                           <setting name="configTOTAL_HEAP_SIZE" value="8192"/>
+                           <setting name="configAPPLICATION_ALLOCATED_HEAP" value="false"/>
+                        </struct>
+                        <struct name="hook_tab">
+                           <setting name="configUSE_IDLE_HOOK" value="true"/>
+                           <setting name="configUSE_TICK_HOOK" value="true"/>
+                           <setting name="configUSE_MALLOC_FAILED_HOOK" value="true"/>
+                           <setting name="configCHECK_FOR_STACK_OVERFLOW" value="2"/>
+                           <setting name="configUSE_DAEMON_TASK_STARTUP_HOOK" value="false"/>
+                        </struct>
+                        <struct name="rttsgrd_tab">
+                           <struct name="configGENERATE_RUN_TIME_STATS_id">
+                              <setting name="configGENERATE_RUN_TIME_STATS" value="false"/>
+                              <setting name="portCONFIGURE_TIMER_FOR_RUN_TIME_STATS" value=""/>
+                              <setting name="portGET_RUN_TIME_COUNTER_VALUE" value="xTaskGetTickCount()"/>
+                           </struct>
+                           <setting name="configUSE_TRACE_FACILITY" value="false"/>
+                           <setting name="configUSE_STATS_FORMATTING_FUNCTIONS" value="true"/>
+                        </struct>
+                        <struct name="co_routines_tab">
+                           <setting name="configUSE_CO_ROUTINES" value="false"/>
+                           <setting name="configMAX_CO_ROUTINE_PRIORITIES" value="2"/>
+                        </struct>
+                        <struct name="sandm_tab">
+                           <setting name="configUSE_MUTEXES" value="true"/>
+                           <setting name="configUSE_RECURSIVE_MUTEXES" value="true"/>
+                           <setting name="configUSE_COUNTING_SEMAPHORES" value="true"/>
+                        </struct>
+                        <struct name="st_tab">
+                           <setting name="configUSE_TIMERS" value="true"/>
+                           <setting name="configTIMER_TASK_PRIORITY" value="2"/>
+                           <setting name="configTIMER_QUEUE_LENGTH" value="10"/>
+                           <setting name="configTIMER_TASK_STACK_DEPTH" value="180"/>
+                        </struct>
+                        <struct name="tidlem_tab">
+                           <setting name="configUSE_TICKLESS_IDLE" value="false"/>
+                           <setting name="configEXPECTED_IDLE_TIME_BEFORE_SLEEP" value="2"/>
+                           <setting name="configPRE_SLEEP_PROCESSING" value=""/>
+                           <setting name="configPOST_SLEEP_PROCESSING" value=""/>
+                        </struct>
+                        <struct name="queue_tab">
+                           <setting name="configQUEUE_REGISTRY_SIZE" value="8"/>
+                           <setting name="configUSE_QUEUE_SETS" value="false"/>
+                        </struct>
+                        <struct name="api_tab">
+                           <setting name="INCLUDE_vTaskPrioritySet" value="true"/>
+                           <setting name="INCLUDE_uxTaskPriorityGet" value="true"/>
+                           <setting name="INCLUDE_vTaskDelete" value="true"/>
+                           <setting name="INCLUDE_vTaskSuspend" value="true"/>
+                           <setting name="INCLUDE_vTaskDelayUntil" value="true"/>
+                           <setting name="INCLUDE_vTaskDelay" value="true"/>
+                           <setting name="INCLUDE_xTaskGetSchedulerState" value="true"/>
+                           <setting name="INCLUDE_xTaskGetCurrentTaskHandle" value="true"/>
+                           <setting name="INCLUDE_uxTaskGetStackHighWaterMark" value="true"/>
+                           <setting name="INCLUDE_xTaskGetIdleTaskHandle" value="false"/>
+                           <setting name="INCLUDE_eTaskGetState" value="true"/>
+                           <setting name="INCLUDE_xEventGroupSetBitFromISR" value="true"/>
+                           <setting name="INCLUDE_xTimerPendFunctionCall" value="true"/>
+                           <setting name="INCLUDE_xTaskAbortDelay" value="true"/>
+                           <setting name="INCLUDE_xTaskGetHandle" value="true"/>
+                           <setting name="INCLUDE_xTaskResumeFromISR" value="true"/>
+                           <setting name="INCLUDE_xQueueGetMutexHolder" value="true"/>
+                        </struct>
+                        <struct name="us_tab">
+                           <setting name="configUSER_SETTINGS" value=""/>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="lpuart_1" uuid="b0efead4-aae6-48de-aa34-db542c37814d" type="lpuart_config" type_id="lpuart" mode="general" peripheral="LPUART_1" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="lpuart_driver">
+                        <setting name="lpuart_state_name" value="lpuart_1_State"/>
+                        <array name="lpuart_configuration">
+                           <struct name="0">
+                              <setting name="name" value="lpuart_1_InitConfig0"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="transferType" value="LPUART_USING_INTERRUPTS"/>
+                              <setting name="baudRate" value="9600"/>
+                              <setting name="parityMode" value="LPUART_PARITY_DISABLED"/>
+                              <setting name="stopBitCount" value="LPUART_ONE_STOP_BIT"/>
+                              <setting name="bitCountPerChar" value="LPUART_8_BITS_PER_CHAR"/>
+                              <setting name="rxDMAChannel" value="0"/>
+                              <setting name="txDMAChannel" value="0"/>
+                           </struct>
+                        </array>
+                     </config_set>
+                  </instance>
+                  <instance name="osif_1" uuid="856903f9-68f0-41d3-aade-8ebacc1cd974" type="osif" type_id="osif" mode="general" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="osif"/>
+                  </instance>
+                  <instance name="power_manager_1" uuid="d19e25ee-c959-4e0a-84d4-9ea6b07715df" type="power_manager" type_id="power_manager" mode="general" peripheral="POWER_MANAGER" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="power_manager">
+                        <struct name="POWER_CONFIGURATIONS">
+                           <array name="powerModeConfiguration">
+                              <struct name="0">
+                                 <setting name="powerModeConfig" value="power_manager_InitConfig0"/>
+                                 <setting name="sleepOnExitValue" value="false"/>
+                                 <setting name="powerMode" value="POWER_MANAGER_HSRUN"/>
+                              </struct>
+                              <struct name="1">
+                                 <setting name="powerModeConfig" value="power_manager_InitConfig1"/>
+                                 <setting name="sleepOnExitValue" value="false"/>
+                                 <setting name="powerMode" value="POWER_MANAGER_RUN"/>
+                              </struct>
+                              <struct name="2">
+                                 <setting name="powerModeConfig" value="power_manager_InitConfig2"/>
+                                 <setting name="sleepOnExitValue" value="false"/>
+                                 <setting name="powerMode" value="POWER_MANAGER_VLPR"/>
+                              </struct>
+                              <struct name="3">
+                                 <setting name="powerModeConfig" value="power_manager_InitConfig3"/>
+                                 <setting name="sleepOnExitValue" value="false"/>
+                                 <setting name="powerMode" value="POWER_MANAGER_STOP1"/>
+                              </struct>
+                              <struct name="4">
+                                 <setting name="powerModeConfig" value="power_manager_InitConfig4"/>
+                                 <setting name="sleepOnExitValue" value="false"/>
+                                 <setting name="powerMode" value="POWER_MANAGER_STOP2"/>
+                              </struct>
+                              <struct name="5">
+                                 <setting name="powerModeConfig" value="power_manager_InitConfig5"/>
+                                 <setting name="sleepOnExitValue" value="false"/>
+                                 <setting name="powerMode" value="POWER_MANAGER_VLPS"/>
+                              </struct>
+                           </array>
+                           <array name="Callback"/>
+                        </struct>
+                     </config_set>
+                  </instance>
+               </instances>
+            </functional_group>
+         </functional_groups>
+         <components/>
+      </periphs>
+   </tools>
+</configuration>
