@@ -68,6 +68,12 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="LPUART2" signal="rxd" pin_num="32" pin_signal="PTD6"/>
+                  <pin peripheral="LPUART2" signal="txd" pin_num="31" pin_signal="PTD7">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
@@ -280,6 +286,8 @@
             <file path="board/peripherals_FreeRTOS.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.c" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.h" update_enabled="true"/>
+            <file path="board/peripherals_lpuart_2.c" update_enabled="true"/>
+            <file path="board/peripherals_lpuart_2.h" update_enabled="true"/>
             <file path="board/peripherals_osif_1.c" update_enabled="true"/>
             <file path="board/peripherals_osif_1.h" update_enabled="true"/>
             <file path="board/peripherals_power_manager_1.c" update_enabled="true"/>
@@ -450,6 +458,24 @@
                            </array>
                            <array name="Callback"/>
                         </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="lpuart_2" uuid="02b81888-782f-43f3-ba86-8ee87e767673" type="lpuart_config" type_id="lpuart" mode="general" peripheral="LPUART_2" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="lpuart_driver">
+                        <setting name="lpuart_state_name" value="lpuart_2_State"/>
+                        <array name="lpuart_configuration">
+                           <struct name="0">
+                              <setting name="name" value="lpuart_2_InitConfig0"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="transferType" value="LPUART_USING_INTERRUPTS"/>
+                              <setting name="baudRate" value="115200"/>
+                              <setting name="parityMode" value="LPUART_PARITY_DISABLED"/>
+                              <setting name="stopBitCount" value="LPUART_ONE_STOP_BIT"/>
+                              <setting name="bitCountPerChar" value="LPUART_8_BITS_PER_CHAR"/>
+                              <setting name="rxDMAChannel" value="0"/>
+                              <setting name="txDMAChannel" value="0"/>
+                           </struct>
+                        </array>
                      </config_set>
                   </instance>
                </instances>

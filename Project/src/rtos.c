@@ -242,8 +242,8 @@ static void prvUartPrint( const char *str )
 {
     uint32_t bytesRemaining;
 
-    LPUART_DRV_SendData(INST_LPUART_1, (uint8_t *)str, strlen(str));
-    while (LPUART_DRV_GetTransmitStatus(INST_LPUART_1, &bytesRemaining) != STATUS_SUCCESS)
+    LPUART_DRV_SendData(INST_LPUART_2, (uint8_t *)str, strlen(str));
+    while (LPUART_DRV_GetTransmitStatus(INST_LPUART_2, &bytesRemaining) != STATUS_SUCCESS)
     {
     	vTaskDelay(pdMS_TO_TICKS(1));
     }
@@ -255,8 +255,8 @@ static uint8_t prvUartReadChar( void )
     uint32_t bytesRemaining;
     uint8_t ch = 0U;
 
-    LPUART_DRV_ReceiveData(INST_LPUART_1, &ch, 1U);
-    while (LPUART_DRV_GetReceiveStatus(INST_LPUART_1, &bytesRemaining) != STATUS_SUCCESS)
+    LPUART_DRV_ReceiveData(INST_LPUART_2, &ch, 1U);
+    while (LPUART_DRV_GetReceiveStatus(INST_LPUART_2, &bytesRemaining) != STATUS_SUCCESS)
     {
     	vTaskDelay(pdMS_TO_TICKS(1));
     }
@@ -426,10 +426,10 @@ static void prvUartTask( void *pvParameters )
         prvUartPrint("Input: ");
         ch = prvUartReadChar();
 
-        LPUART_DRV_SendData(INST_LPUART_1, &ch, 1U);
+        LPUART_DRV_SendData(INST_LPUART_2, &ch, 1U);
         {
             uint32_t bytesRemaining;
-            while (LPUART_DRV_GetTransmitStatus(INST_LPUART_1, &bytesRemaining) != STATUS_SUCCESS)
+            while (LPUART_DRV_GetTransmitStatus(INST_LPUART_2, &bytesRemaining) != STATUS_SUCCESS)
             {
             	vTaskDelay(pdMS_TO_TICKS(1));
             }
@@ -528,7 +528,7 @@ static void prvSetupHardware( void )
 
     POWER_SYS_Init(&powerConfigsArr, POWER_MANAGER_CONFIG_CNT, &powerStaticCallbacksConfigsArr, POWER_MANAGER_CALLBACK_CNT);
 
-    LPUART_DRV_Init(INST_LPUART_1, &lpuart_1_State, &lpuart_1_InitConfig0);
+    LPUART_DRV_Init(INST_LPUART_2, &lpuart_2_State, &lpuart_2_InitConfig0);
 
 	/* Change LED1, LED2 to outputs. */
 	PINS_DRV_SetPinsDirection(LED_GPIO,  (1 << LED1) | (1 << LED2));

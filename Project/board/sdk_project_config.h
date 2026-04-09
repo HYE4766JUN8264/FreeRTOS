@@ -22,6 +22,7 @@
 #include "peripherals_lpuart_1.h"
 #include "peripherals_osif_1.h"
 #include "peripherals_power_manager_1.h"
+#include "peripherals_lpuart_2.h"
 
 
 #endif /* SDK_PROJECT_CONFIG_H_ */
