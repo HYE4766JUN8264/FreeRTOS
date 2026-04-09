@@ -116,6 +116,9 @@ an interrupt on this port. */
 /* A block time of zero simply means "don't block". */
 #define mainDONT_BLOCK						( 0UL )
 
+/* Definition of power modes indexes, as configured in Power Manager Component
+ *  Refer to the Reference Manual for details about the power modes.
+ */
 #define HSRUN   (0u)
 #define RUN     (1u)
 #define VLPR    (2u)
@@ -269,9 +272,8 @@ static void prvPrintCoreClock( void )
     (void)CLOCK_SYS_GetFreq(CORE_CLOCK, &frequency);
     snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)frequency);
 
-    prvUartPrint("Core frequency: ");
     prvUartPrint(buffer);
-    prvUartPrint(" [Hz]\r\n");
+    prvUartPrint("[Hz] \r\n");
 }
 /*-----------------------------------------------------------*/
 
@@ -285,8 +287,9 @@ static void prvHandlePowerMode( uint8_t ch )
             retV = POWER_SYS_SetMode(HSRUN, POWER_MANAGER_POLICY_AGREEMENT);
             if (retV == STATUS_SUCCESS)
             {
-                prvUartPrint("[PM] CPU is in HSRUN mode.\r\n");
-                prvPrintCoreClock();
+            	prvUartPrint("************************ CPU is in HSRUN mode.\r\n");
+            	prvUartPrint("************************ Core frequency: ");
+            	prvPrintCoreClock();
             }
             else
             {
@@ -298,8 +301,9 @@ static void prvHandlePowerMode( uint8_t ch )
             retV = POWER_SYS_SetMode(RUN, POWER_MANAGER_POLICY_AGREEMENT);
             if (retV == STATUS_SUCCESS)
             {
-                prvUartPrint("[PM] CPU is in RUN mode.\r\n");
-                prvPrintCoreClock();
+            	prvUartPrint("************************ CPU is in RUN mode.\r\n");
+            	prvUartPrint("************************ Core frequency: ");
+            	prvPrintCoreClock();
             }
             else
             {
@@ -311,8 +315,9 @@ static void prvHandlePowerMode( uint8_t ch )
             retV = POWER_SYS_SetMode(VLPR, POWER_MANAGER_POLICY_AGREEMENT);
             if (retV == STATUS_SUCCESS)
             {
-                prvUartPrint("[PM] CPU is in VLPR mode.\r\n");
-                prvPrintCoreClock();
+            	prvUartPrint("************************ CPU is in VLPR mode.\r\n");
+            	prvUartPrint("************************ Core frequency: ");
+            	prvPrintCoreClock();
             }
             else
             {
@@ -320,21 +325,81 @@ static void prvHandlePowerMode( uint8_t ch )
             }
             break;
 
-        case '4':
-            prvUartPrint("[PM] STOP1 is not connected yet.\r\n");
-            break;
+		case '4':
+			prvUartPrint("******** CPU is going in STOP1 mode...\r\n");
 
-        case '5':
-            prvUartPrint("[PM] STOP2 is not connected yet.\r\n");
-            break;
+			PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
+			PINS_DRV_SetPins(LED_GPIO, (1 << LED2));
 
-        case '6':
-            prvUartPrint("[PM] VLPS is not connected yet.\r\n");
-            break;
+			retV = POWER_SYS_SetMode(STOP1, POWER_MANAGER_POLICY_AGREEMENT);
+			if (retV == STATUS_SUCCESS)
+			{
+				prvUartPrint("CPU was entered STOP1 mode successfully and then woke up to exit STOP1 mode.\r\n");
+				prvUartPrint("Current mode is RUN because STOP mode can only be switched from this mode.\r\n");
+			}
+			else
+			{
+				prvUartPrint("Switch STOP1 mode unsuccessfully\r\n");
+			}
+			break;
+
+		case '5':
+			prvUartPrint("******** CPU is going in STOP2 mode...\r\n");
+
+			PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
+			PINS_DRV_SetPins(LED_GPIO, (1 << LED2));
+
+			retV = POWER_SYS_SetMode(STOP2, POWER_MANAGER_POLICY_AGREEMENT);
+			if (retV == STATUS_SUCCESS)
+			{
+				prvUartPrint("CPU was entered STOP2 mode successfully and then woke up to exit STOP2 mode.\r\n");
+				prvUartPrint("Current mode is RUN because STOP mode can only be switched from this mode.\r\n");
+			}
+			else
+			{
+				prvUartPrint("Switch STOP2 mode unsuccessfully\r\n");
+			}
+			break;
+
+		case '6':
+			prvUartPrint("******** CPU is going in VLPS mode...\r\n");
+
+			PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
+			PINS_DRV_SetPins(LED_GPIO, (1 << LED2));
+
+			retV = POWER_SYS_SetMode(VLPS, POWER_MANAGER_POLICY_AGREEMENT);
+			if (retV == STATUS_SUCCESS)
+			{
+				prvUartPrint("CPU was entered VLPS mode successfully and then woke up to exit VLPS mode.\r\n");
+
+				if (POWER_SYS_GetCurrentMode() == POWER_MANAGER_RUN)
+				{
+				    prvUartPrint("Current mode is RUN mode.\r\n");
+				    prvUartPrint("Clock source is remained in SIRC (8 MHz) before MCU switches from RUN to VLP mode.\r\n");
+				    prvUartPrint("In order to set to default clock, press option RUN mode or re-initialize clock configuration.\r\n");
+
+				    CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
+
+				    prvUartPrint("************************ Core frequency after re-initialized clock: ");
+				    prvPrintCoreClock();
+				}
+				else
+				{
+					prvUartPrint("Current mode is VLPR mode.\r\n");
+					prvUartPrint("************************ Core frequency: ");
+					prvPrintCoreClock();
+				}
+			}
+			else
+			{
+				prvUartPrint("Switch VLPS mode unsuccessfully\r\n");
+			}
+			break;
 
         default:
             break;
     }
+    prvUartPrint("----------------------------------------------------------------------------\r\n");
 }
 
 /*-----------------------------------------------------------*/
