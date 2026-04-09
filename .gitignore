@@ -1,12 +1,12 @@
+# Build Outputs
 Project/Debug_RAM/
-*.o
-*.d
-*.elf
-*.binProject/Debug_RAM/
+Project/Debug_FLASH/
 *.o
 *.d
 *.elf
 *.bin
 *.map
-*.map
+*.hex
+*.srec
+*.siz
 
