@@ -45,7 +45,7 @@ instance:
         - name: 'lpuart_1_InitConfig0'
         - readonly: 'true'
         - transferType: 'LPUART_USING_INTERRUPTS'
-        - baudRate: '9600'
+        - baudRate: '9200'
         - parityMode: 'LPUART_PARITY_DISABLED'
         - stopBitCount: 'LPUART_ONE_STOP_BIT'
         - bitCountPerChar: 'LPUART_8_BITS_PER_CHAR'
@@ -66,7 +66,7 @@ lpuart_state_t lpuart_1_State;
 
 const lpuart_user_config_t lpuart_1_InitConfig0 = {
   .transferType = LPUART_USING_INTERRUPTS,
-  .baudRate = 9600UL,
+  .baudRate = 9200UL,
   .parityMode = LPUART_PARITY_DISABLED,
   .stopBitCount = LPUART_ONE_STOP_BIT,
   .bitCountPerChar = LPUART_8_BITS_PER_CHAR,

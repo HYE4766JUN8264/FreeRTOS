@@ -79,10 +79,15 @@
 
 #include "BoardDefines.h"
 
+#include <string.h>
+#include <stdio.h>
 
 /* Priorities at which the tasks are created. */
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
 #define	mainQUEUE_SEND_TASK_PRIORITY		( tskIDLE_PRIORITY + 1 )
+
+#define mainUART_TASK_PRIORITY              ( tskIDLE_PRIORITY + 1 )
+#define mainUART_TASK_STACK_SIZE            ( configMINIMAL_STACK_SIZE + 200 )
 
 /* The rate at which data is sent to the queue, specified in milliseconds, and
 converted to ticks using the portTICK_PERIOD_MS constant. */
@@ -111,6 +116,13 @@ an interrupt on this port. */
 /* A block time of zero simply means "don't block". */
 #define mainDONT_BLOCK						( 0UL )
 
+#define HSRUN   (0u)
+#define RUN     (1u)
+#define VLPR    (2u)
+#define STOP1   (3u)
+#define STOP2   (4u)
+#define VLPS    (5u)
+
 /*-----------------------------------------------------------*/
 
 /*
@@ -123,20 +135,25 @@ static void prvSetupHardware( void );
  */
 static void prvQueueReceiveTask( void *pvParameters );
 static void prvQueueSendTask( void *pvParameters );
+static void prvUartTask( void *pvParameters );
 
 /*
  * The LED timer callback function.  This does nothing but switch off the
  * LED defined by the mainTIMER_CONTROLLED_LED constant.
  */
 static void prvButtonLEDTimerCallback( TimerHandle_t xTimer );
+static void prvUartPrint( const char *str );
+static uint8_t prvUartReadChar( void );
+
+static void prvHandlePowerMode( uint8_t ch );
+static void prvPrintCoreClock( void );
 
 /*-----------------------------------------------------------*/
 
 /* The queue used by both tasks. */
 static QueueHandle_t xQueue = NULL;
 
-/* The LED software timer.  This uses prvButtonLEDTimerCallback() as its callback
-function. */
+/* The LED software timer.  This uses prvButtonLEDTimerCallback() as its callback function. */
 static TimerHandle_t xButtonLEDTimer = NULL;
 
 /*-----------------------------------------------------------*/
@@ -156,6 +173,7 @@ void rtos_start( void )
 
 		xTaskCreate( prvQueueReceiveTask, "RX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_RECEIVE_TASK_PRIORITY, NULL );
 		xTaskCreate( prvQueueSendTask, "TX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_SEND_TASK_PRIORITY, NULL );
+		xTaskCreate( prvUartTask, "UART", mainUART_TASK_STACK_SIZE, NULL, mainUART_TASK_PRIORITY, NULL );
 
 
 		/* Create the software timer that is responsible for turning off the LED
@@ -216,6 +234,164 @@ void vPort_C_ISRHandler( void )
 	portEND_SWITCHING_ISR() will ensure the unblocked task runs next. */
 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
 }
+
+static void prvUartPrint( const char *str )
+{
+    uint32_t bytesRemaining;
+
+    LPUART_DRV_SendData(INST_LPUART_1, (uint8_t *)str, strlen(str));
+    while (LPUART_DRV_GetTransmitStatus(INST_LPUART_1, &bytesRemaining) != STATUS_SUCCESS)
+    {
+    	vTaskDelay(pdMS_TO_TICKS(1));
+    }
+}
+/*-----------------------------------------------------------*/
+
+static uint8_t prvUartReadChar( void )
+{
+    uint32_t bytesRemaining;
+    uint8_t ch = 0U;
+
+    LPUART_DRV_ReceiveData(INST_LPUART_1, &ch, 1U);
+    while (LPUART_DRV_GetReceiveStatus(INST_LPUART_1, &bytesRemaining) != STATUS_SUCCESS)
+    {
+    	vTaskDelay(pdMS_TO_TICKS(1));
+    }
+
+    return ch;
+}
+
+static void prvPrintCoreClock( void )
+{
+    uint32_t frequency;
+    char buffer[32];
+
+    (void)CLOCK_SYS_GetFreq(CORE_CLOCK, &frequency);
+    snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)frequency);
+
+    prvUartPrint("Core frequency: ");
+    prvUartPrint(buffer);
+    prvUartPrint(" [Hz]\r\n");
+}
+/*-----------------------------------------------------------*/
+
+static void prvHandlePowerMode( uint8_t ch )
+{
+    status_t retV = STATUS_SUCCESS;
+
+    switch (ch)
+    {
+        case '1':
+            retV = POWER_SYS_SetMode(HSRUN, POWER_MANAGER_POLICY_AGREEMENT);
+            if (retV == STATUS_SUCCESS)
+            {
+                prvUartPrint("[PM] CPU is in HSRUN mode.\r\n");
+                prvPrintCoreClock();
+            }
+            else
+            {
+                prvUartPrint("[PM] Switch HSRUN mode unsuccessfully\r\n");
+            }
+            break;
+
+        case '2':
+            retV = POWER_SYS_SetMode(RUN, POWER_MANAGER_POLICY_AGREEMENT);
+            if (retV == STATUS_SUCCESS)
+            {
+                prvUartPrint("[PM] CPU is in RUN mode.\r\n");
+                prvPrintCoreClock();
+            }
+            else
+            {
+                prvUartPrint("[PM] Switch RUN mode unsuccessfully\r\n");
+            }
+            break;
+
+        case '3':
+            retV = POWER_SYS_SetMode(VLPR, POWER_MANAGER_POLICY_AGREEMENT);
+            if (retV == STATUS_SUCCESS)
+            {
+                prvUartPrint("[PM] CPU is in VLPR mode.\r\n");
+                prvPrintCoreClock();
+            }
+            else
+            {
+                prvUartPrint("[PM] Switch VLPR mode unsuccessfully\r\n");
+            }
+            break;
+
+        case '4':
+            prvUartPrint("[PM] STOP1 is not connected yet.\r\n");
+            break;
+
+        case '5':
+            prvUartPrint("[PM] STOP2 is not connected yet.\r\n");
+            break;
+
+        case '6':
+            prvUartPrint("[PM] VLPS is not connected yet.\r\n");
+            break;
+
+        default:
+            break;
+    }
+}
+
+/*-----------------------------------------------------------*/
+
+static void prvUartTask( void *pvParameters )
+{
+    uint8_t ch;
+    char msg[64];
+
+    (void)pvParameters;
+
+    prvUartPrint("\r\n================ UART MENU ================\r\n");
+    prvUartPrint("Press 1~6\r\n");
+    prvUartPrint("1) HSRUN\r\n");
+    prvUartPrint("2) RUN\r\n");
+    prvUartPrint("3) VLPR\r\n");
+    prvUartPrint("4) STOP1\r\n");
+    prvUartPrint("5) STOP2\r\n");
+    prvUartPrint("6) VLPS\r\n");
+    prvUartPrint("===========================================\r\n");
+
+    for (;;)
+    {
+        prvUartPrint("Input: ");
+        ch = prvUartReadChar();
+
+        LPUART_DRV_SendData(INST_LPUART_1, &ch, 1U);
+        {
+            uint32_t bytesRemaining;
+            while (LPUART_DRV_GetTransmitStatus(INST_LPUART_1, &bytesRemaining) != STATUS_SUCCESS)
+            {
+            	vTaskDelay(pdMS_TO_TICKS(1));
+            }
+        }
+        prvUartPrint("\r\n");
+
+        switch (ch)
+        {
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+                prvHandlePowerMode(ch);
+                break;
+
+            default:
+                snprintf(msg, sizeof(msg), "[UART] invalid input: %c\r\n", ch);
+                prvUartPrint(msg);
+                break;
+        }
+
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+}
+
 /*-----------------------------------------------------------*/
 
 static void prvQueueSendTask( void *pvParameters )
@@ -281,7 +457,13 @@ static void prvSetupHardware( void )
                    g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
     CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
 
+    PINS_DRV_Init(NUM_OF_CONFIGURED_PINS0, g_pin_mux_InitConfigArr0);
+
     boardSetup();
+
+    POWER_SYS_Init(&powerConfigsArr, POWER_MANAGER_CONFIG_CNT, &powerStaticCallbacksConfigsArr, POWER_MANAGER_CALLBACK_CNT);
+
+    LPUART_DRV_Init(INST_LPUART_1, &lpuart_1_State, &lpuart_1_InitConfig0);
 
 	/* Change LED1, LED2 to outputs. */
 	PINS_DRV_SetPinsDirection(LED_GPIO,  (1 << LED1) | (1 << LED2));

@@ -400,7 +400,7 @@
                               <setting name="name" value="lpuart_1_InitConfig0"/>
                               <setting name="readonly" value="true"/>
                               <setting name="transferType" value="LPUART_USING_INTERRUPTS"/>
-                              <setting name="baudRate" value="9600"/>
+                              <setting name="baudRate" value="9200"/>
                               <setting name="parityMode" value="LPUART_PARITY_DISABLED"/>
                               <setting name="stopBitCount" value="LPUART_ONE_STOP_BIT"/>
                               <setting name="bitCountPerChar" value="LPUART_8_BITS_PER_CHAR"/>
