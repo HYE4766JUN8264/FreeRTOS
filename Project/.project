@@ -321,6 +321,11 @@
 			<locationURI>$%7BS32K144_SDK_4_0_3_PATH%7D/rtos/FreeRTOS_S32K/Source/portable/GCC/ARM_CM4F/portmacro.h</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/platform/drivers/src/adc/doxygen/adc_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/adc/doxygen/adc_driver.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/platform/drivers/src/clock/doxygen/clock_manager.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/clock/doxygen/clock_manager.dox</locationURI>
@@ -334,6 +339,16 @@
 			<name>doc/SDK/platform/drivers/src/interrupt/doxygen/interrupt.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/interrupt/doxygen/interrupt.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lptmr/doxygen/lptmr.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lptmr/doxygen/lptmr.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/lptmr/doxygen/lptmr_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lptmr/doxygen/lptmr_driver.dox</locationURI>
 		</link>
 		<link>
 			<name>doc/SDK/platform/drivers/src/lpuart/doxygen/lpuart_driver.dox</name>

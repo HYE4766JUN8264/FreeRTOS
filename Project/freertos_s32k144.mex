@@ -279,11 +279,47 @@
                   <data type="Version">1.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.edma" description="eDMA Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.edma" description="Unsupported version of the eDMA Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lptmr" description="LPTMR Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lptmr" description="Unsupported version of the LPTMR Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.adc" description="ADC driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.adc" description="Unsupported version of the ADC driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/FreeRTOSConfig.h" update_enabled="true"/>
             <file path="board/peripherals_FreeRTOS.c" update_enabled="true"/>
             <file path="board/peripherals_FreeRTOS.h" update_enabled="true"/>
+            <file path="board/peripherals_adc_config_1.c" update_enabled="true"/>
+            <file path="board/peripherals_adc_config_1.h" update_enabled="true"/>
+            <file path="board/peripherals_dma_controller_1.c" update_enabled="true"/>
+            <file path="board/peripherals_dma_controller_1.h" update_enabled="true"/>
+            <file path="board/peripherals_lptmr_0.c" update_enabled="true"/>
+            <file path="board/peripherals_lptmr_0.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.c" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_2.c" update_enabled="true"/>
@@ -474,6 +510,106 @@
                               <setting name="bitCountPerChar" value="LPUART_8_BITS_PER_CHAR"/>
                               <setting name="rxDMAChannel" value="0"/>
                               <setting name="txDMAChannel" value="0"/>
+                           </struct>
+                        </array>
+                     </config_set>
+                  </instance>
+                  <instance name="dma_controller_1" uuid="98599933-1d5b-4201-b9d6-8fc08034b6a7" type="edma_config" type_id="edma" mode="general" peripheral="EDMA" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="edma_driver">
+                        <struct name="settings_edmaUserCfg">
+                           <setting name="userStateStruct" value="dmaController_1_State"/>
+                           <array name="array_userCfgStructs">
+                              <struct name="0">
+                                 <setting name="userCfgName" value="dmaController_1_InitConfig0"/>
+                                 <setting name="cfgType" value="edma_user_config_t"/>
+                                 <setting name="readOnly" value="true"/>
+                                 <setting name="chnArbitration" value="EDMA_ARBITRATION_FIXED_PRIORITY"/>
+                                 <setting name="haltOnError" value="false"/>
+                              </struct>
+                           </array>
+                        </struct>
+                        <struct name="settings_array_edmaChCfg">
+                           <array name="array_chCfgStructs">
+                              <struct name="0">
+                                 <setting name="chStateStructName" value="dmaController_1_Chn0_State"/>
+                                 <setting name="chConfigName" value="dmaController_1_Chn0_Config"/>
+                                 <setting name="chType" value="edma_channel_config_t"/>
+                                 <setting name="virtCh" value="0"/>
+                                 <setting name="chPrio" value="EDMA_CHN_DEFAULT_PRIORITY"/>
+                                 <setting name="chReq" value="EDMA_REQ_LPUART1_RX"/>
+                                 <setting name="chCallback" value="NULL"/>
+                                 <setting name="chCallbackParam" value="NULL"/>
+                                 <setting name="enableTrigger" value="false"/>
+                              </struct>
+                           </array>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="lptmr_0" uuid="d0662fd2-39c2-4315-8141-f0b3c7f36c12" type="lptmr" type_id="lptmr" mode="general" peripheral="LPTMR_0" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="lptmr">
+                        <array name="lptmrConfig">
+                           <struct name="0">
+                              <setting name="name" value="lptmr_0_config0"/>
+                              <setting name="readOnly" value="true"/>
+                              <setting name="workMode" value="LPTMR_WORKMODE_TIMER"/>
+                              <setting name="dmaRequest" value="false"/>
+                              <setting name="interruptEnable" value="true"/>
+                              <setting name="freeRun" value="false"/>
+                              <setting name="compareValue" value="1000000"/>
+                              <setting name="counterUnits" value="LPTMR_COUNTER_UNITS_MICROSECONDS"/>
+                              <setting name="clockSelect" value="LPTMR_CLOCKSOURCE_SIRCDIV2"/>
+                              <setting name="prescaler" value="LPTMR_PRESCALE_2"/>
+                              <setting name="bypassPrescaler" value="false"/>
+                              <setting name="pinSelect" value="LPTMR_PINSELECT_TRGMUX"/>
+                              <setting name="pinPolarity" value="LPTMR_PINPOLARITY_RISING"/>
+                           </struct>
+                        </array>
+                     </config_set>
+                  </instance>
+                  <instance name="adc_config_1" uuid="c0e57533-5446-4fe2-8dd9-1c59d7ec0092" type="adc_config" type_id="adc" mode="general" peripheral="ADC_1" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="adc">
+                        <array name="adcConverterCfg">
+                           <struct name="0">
+                              <setting name="name" value="adc_config_1_ConvConfig0"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="clockDivide" value="ADC_CLK_DIVIDE_4"/>
+                              <setting name="sampleTime" value="255"/>
+                              <setting name="resolution" value="ADC_RESOLUTION_12BIT"/>
+                              <setting name="inputClock" value="ADC_CLK_ALT_1"/>
+                              <setting name="trigger" value="ADC_TRIGGER_HARDWARE"/>
+                              <setting name="pretriggerSel" value="ADC_PRETRIGGER_SEL_PDB"/>
+                              <setting name="triggerSel" value="ADC_TRIGGER_SEL_PDB"/>
+                              <setting name="dmaEnable" value="true"/>
+                              <setting name="voltageRef" value="ADC_VOLTAGEREF_VREF"/>
+                              <setting name="continuousConvEnable" value="false"/>
+                              <setting name="supplyMonitoringEnable" value="false"/>
+                           </struct>
+                        </array>
+                        <array name="adcCompareCfg">
+                           <struct name="0">
+                              <setting name="name" value="adc_config_1_HwCompConfig0"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="compareEnable" value="false"/>
+                              <setting name="compareGreaterThanEnable" value="false"/>
+                              <setting name="compareRangeFuncEnable" value="false"/>
+                              <setting name="compVal1" value="0"/>
+                              <setting name="compVal2" value="0"/>
+                           </struct>
+                        </array>
+                        <array name="adcAverageCfg">
+                           <struct name="0">
+                              <setting name="name" value="adc_config_1_HwAvgConfig0"/>
+                              <setting name="readonly" value="false"/>
+                              <setting name="hwAvgEnable" value="false"/>
+                              <setting name="hwAverage" value="ADC_AVERAGE_4"/>
+                           </struct>
+                        </array>
+                        <array name="adcChanCfg">
+                           <struct name="0">
+                              <setting name="name" value="adc_config_1_ChnConfig0"/>
+                              <setting name="readonly" value="false"/>
+                              <setting name="interruptEnable" value="true"/>
+                              <setting name="channel" value="ADC_INPUTCHAN_EXT11"/>
                            </struct>
                         </array>
                      </config_set>

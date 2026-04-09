@@ -23,6 +23,9 @@
 #include "peripherals_osif_1.h"
 #include "peripherals_power_manager_1.h"
 #include "peripherals_lpuart_2.h"
+#include "peripherals_dma_controller_1.h"
+#include "peripherals_lptmr_0.h"
+#include "peripherals_adc_config_1.h"
 
 
 #endif /* SDK_PROJECT_CONFIG_H_ */
