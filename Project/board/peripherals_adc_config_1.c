@@ -36,21 +36,63 @@ instance:
 - custom_name_enabled: 'true'
 - type_id: 'adc'
 - functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'ADC_1'
+- peripheral: 'ADC_0'
 - config_sets:
   - adc:
     - adcConverterCfg:
       - 0:
         - name: 'adc_config_1_ConvConfig0'
         - readonly: 'true'
-        - clockDivide: 'ADC_CLK_DIVIDE_4'
-        - sampleTime: '255'
+        - clockDivide: 'ADC_CLK_DIVIDE_1'
+        - sampleTime: '12'
         - resolution: 'ADC_RESOLUTION_12BIT'
         - inputClock: 'ADC_CLK_ALT_1'
         - trigger: 'ADC_TRIGGER_HARDWARE'
-        - pretriggerSel: 'ADC_PRETRIGGER_SEL_PDB'
-        - triggerSel: 'ADC_TRIGGER_SEL_PDB'
-        - dmaEnable: 'true'
+        - pretriggerSel: 'ADC_PRETRIGGER_SEL_TRGMUX'
+        - triggerSel: 'ADC_TRIGGER_SEL_TRGMUX'
+        - dmaEnable: 'false'
+        - voltageRef: 'ADC_VOLTAGEREF_VREF'
+        - continuousConvEnable: 'false'
+        - supplyMonitoringEnable: 'false'
+      - 1:
+        - name: 'adc_config_1_ConvConfig1'
+        - readonly: 'true'
+        - clockDivide: 'ADC_CLK_DIVIDE_1'
+        - sampleTime: '12'
+        - resolution: 'ADC_RESOLUTION_12BIT'
+        - inputClock: 'ADC_CLK_ALT_1'
+        - trigger: 'ADC_TRIGGER_SOFTWARE'
+        - pretriggerSel: 'ADC_PRETRIGGER_SEL_TRGMUX'
+        - triggerSel: 'ADC_TRIGGER_SEL_TRGMUX'
+        - dmaEnable: 'false'
+        - voltageRef: 'ADC_VOLTAGEREF_VREF'
+        - continuousConvEnable: 'false'
+        - supplyMonitoringEnable: 'false'
+      - 2:
+        - name: 'adc_config_1_ConvConfig2'
+        - readonly: 'true'
+        - clockDivide: 'ADC_CLK_DIVIDE_1'
+        - sampleTime: '12'
+        - resolution: 'ADC_RESOLUTION_12BIT'
+        - inputClock: 'ADC_CLK_ALT_1'
+        - trigger: 'ADC_TRIGGER_SOFTWARE'
+        - pretriggerSel: 'ADC_PRETRIGGER_SEL_TRGMUX'
+        - triggerSel: 'ADC_TRIGGER_SEL_TRGMUX'
+        - dmaEnable: 'false'
+        - voltageRef: 'ADC_VOLTAGEREF_VREF'
+        - continuousConvEnable: 'false'
+        - supplyMonitoringEnable: 'false'
+      - 3:
+        - name: 'adc_config_1_ConvConfig3'
+        - readonly: 'true'
+        - clockDivide: 'ADC_CLK_DIVIDE_1'
+        - sampleTime: '12'
+        - resolution: 'ADC_RESOLUTION_12BIT'
+        - inputClock: 'ADC_CLK_ALT_1'
+        - trigger: 'ADC_TRIGGER_SOFTWARE'
+        - pretriggerSel: 'ADC_PRETRIGGER_SEL_TRGMUX'
+        - triggerSel: 'ADC_TRIGGER_SEL_TRGMUX'
+        - dmaEnable: 'false'
         - voltageRef: 'ADC_VOLTAGEREF_VREF'
         - continuousConvEnable: 'false'
         - supplyMonitoringEnable: 'false'
@@ -58,23 +100,33 @@ instance:
       - 0:
         - name: 'adc_config_1_HwCompConfig0'
         - readonly: 'true'
-        - compareEnable: 'false'
-        - compareGreaterThanEnable: 'false'
+        - compareEnable: 'true'
+        - compareGreaterThanEnable: 'true'
         - compareRangeFuncEnable: 'false'
-        - compVal1: '0'
+        - compVal1: '2048'
         - compVal2: '0'
-    - adcAverageCfg:
-      - 0:
-        - name: 'adc_config_1_HwAvgConfig0'
-        - readonly: 'false'
-        - hwAvgEnable: 'false'
-        - hwAverage: 'ADC_AVERAGE_4'
+    - adcAverageCfg: []
     - adcChanCfg:
       - 0:
         - name: 'adc_config_1_ChnConfig0'
-        - readonly: 'false'
+        - readonly: 'true'
         - interruptEnable: 'true'
-        - channel: 'ADC_INPUTCHAN_EXT11'
+        - channel: 'ADC_INPUTCHAN_EXT12'
+      - 1:
+        - name: 'adc_config_1_ChnConfig1'
+        - readonly: 'true'
+        - interruptEnable: 'true'
+        - channel: 'ADC_INPUTCHAN_EXT12'
+      - 2:
+        - name: 'adc_config_1_ChnConfig2'
+        - readonly: 'true'
+        - interruptEnable: 'true'
+        - channel: 'ADC_INPUTCHAN_EXT12'
+      - 3:
+        - name: 'adc_config_1_ChnConfig3'
+        - readonly: 'true'
+        - interruptEnable: 'true'
+        - channel: 'ADC_INPUTCHAN_EXT12'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
@@ -88,35 +140,87 @@ instance:
  */
 
 const adc_converter_config_t adc_config_1_ConvConfig0 = {
-  .clockDivide = ADC_CLK_DIVIDE_4,
-  .sampleTime = 255U,
+  .clockDivide = ADC_CLK_DIVIDE_1,
+  .sampleTime = 12U,
   .resolution = ADC_RESOLUTION_12BIT,
   .inputClock = ADC_CLK_ALT_1,
   .trigger = ADC_TRIGGER_HARDWARE,
-  .pretriggerSel = ADC_PRETRIGGER_SEL_PDB,
-  .triggerSel = ADC_TRIGGER_SEL_PDB,
-  .dmaEnable = true,
+  .pretriggerSel = ADC_PRETRIGGER_SEL_TRGMUX,
+  .triggerSel = ADC_TRIGGER_SEL_TRGMUX,
+  .dmaEnable = false,
+  .voltageRef = ADC_VOLTAGEREF_VREF,
+  .continuousConvEnable = false,
+  .supplyMonitoringEnable = false
+};
+
+const adc_converter_config_t adc_config_1_ConvConfig1 = {
+  .clockDivide = ADC_CLK_DIVIDE_1,
+  .sampleTime = 12U,
+  .resolution = ADC_RESOLUTION_12BIT,
+  .inputClock = ADC_CLK_ALT_1,
+  .trigger = ADC_TRIGGER_SOFTWARE,
+  .pretriggerSel = ADC_PRETRIGGER_SEL_TRGMUX,
+  .triggerSel = ADC_TRIGGER_SEL_TRGMUX,
+  .dmaEnable = false,
+  .voltageRef = ADC_VOLTAGEREF_VREF,
+  .continuousConvEnable = false,
+  .supplyMonitoringEnable = false
+};
+
+const adc_converter_config_t adc_config_1_ConvConfig2 = {
+  .clockDivide = ADC_CLK_DIVIDE_1,
+  .sampleTime = 12U,
+  .resolution = ADC_RESOLUTION_12BIT,
+  .inputClock = ADC_CLK_ALT_1,
+  .trigger = ADC_TRIGGER_SOFTWARE,
+  .pretriggerSel = ADC_PRETRIGGER_SEL_TRGMUX,
+  .triggerSel = ADC_TRIGGER_SEL_TRGMUX,
+  .dmaEnable = false,
+  .voltageRef = ADC_VOLTAGEREF_VREF,
+  .continuousConvEnable = false,
+  .supplyMonitoringEnable = false
+};
+
+const adc_converter_config_t adc_config_1_ConvConfig3 = {
+  .clockDivide = ADC_CLK_DIVIDE_1,
+  .sampleTime = 12U,
+  .resolution = ADC_RESOLUTION_12BIT,
+  .inputClock = ADC_CLK_ALT_1,
+  .trigger = ADC_TRIGGER_SOFTWARE,
+  .pretriggerSel = ADC_PRETRIGGER_SEL_TRGMUX,
+  .triggerSel = ADC_TRIGGER_SEL_TRGMUX,
+  .dmaEnable = false,
   .voltageRef = ADC_VOLTAGEREF_VREF,
   .continuousConvEnable = false,
   .supplyMonitoringEnable = false
 };
 
 const adc_compare_config_t adc_config_1_HwCompConfig0 = {
-  .compareEnable = false,
-  .compareGreaterThanEnable = false,
+  .compareEnable = true,
+  .compareGreaterThanEnable = true,
   .compareRangeFuncEnable = false,
-  .compVal1 = 0U,
+  .compVal1 = 2048U,
   .compVal2 = 0U
 };
 
-adc_average_config_t adc_config_1_HwAvgConfig0 = {
-  .hwAvgEnable = false,
-  .hwAverage = ADC_AVERAGE_4
+const adc_chan_config_t adc_config_1_ChnConfig0 = {
+  .interruptEnable = true,
+  .channel = ADC_INPUTCHAN_EXT12
 };
 
-adc_chan_config_t adc_config_1_ChnConfig0 = {
+const adc_chan_config_t adc_config_1_ChnConfig1 = {
   .interruptEnable = true,
-  .channel = ADC_INPUTCHAN_EXT11
+  .channel = ADC_INPUTCHAN_EXT12
+};
+
+const adc_chan_config_t adc_config_1_ChnConfig2 = {
+  .interruptEnable = true,
+  .channel = ADC_INPUTCHAN_EXT12
+};
+
+const adc_chan_config_t adc_config_1_ChnConfig3 = {
+  .interruptEnable = true,
+  .channel = ADC_INPUTCHAN_EXT12
 };
 
 

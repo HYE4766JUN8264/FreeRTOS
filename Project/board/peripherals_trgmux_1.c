@@ -22,35 +22,32 @@ functionalGroups:
 /*******************************************************************************
  * Included files 
  ******************************************************************************/
-#include "peripherals_lpuart_1.h"
+#include "peripherals_trgmux_1.h"
 
 /*******************************************************************************
- * lpuart_1 initialization code
+ * trgmux_1 initialization code
  ******************************************************************************/
 /* clang-format off */
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 instance:
-- name: 'lpuart_1'
-- type: 'lpuart_config'
+- name: 'trgmux_1'
+- type: 'trgmux_config'
 - mode: 'general'
 - custom_name_enabled: 'true'
-- type_id: 'lpuart'
+- type_id: 'trgmux'
 - functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'LPUART_1'
+- peripheral: 'TRGMUX'
 - config_sets:
-  - lpuart_driver:
-    - lpuart_state_name: 'lpuart_1_State'
-    - lpuart_configuration:
+  - trgmux:
+    - trgmuxCfg:
       - 0:
-        - name: 'lpuart_1_InitConfig0'
+        - name: 'trgmux1_InitConfig0'
         - readonly: 'true'
-        - transferType: 'LPUART_USING_INTERRUPTS'
-        - baudRate: '9600'
-        - parityMode: 'LPUART_PARITY_DISABLED'
-        - stopBitCount: 'LPUART_ONE_STOP_BIT'
-        - bitCountPerChar: 'LPUART_8_BITS_PER_CHAR'
-        - rxDMAChannel: '0'
-        - txDMAChannel: '0'
+        - mapping_cfg:
+          - 0:
+            - triggerSource: 'TRGMUX_TRIG_SOURCE_LPIT_CH0'
+            - targetModule: 'TRGMUX_TARGET_MODULE_ADC0_ADHWT_TLA0'
+            - lockreg: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
@@ -62,16 +59,17 @@ instance:
  * The external variables will be used in other source files in application code.
  *
  */
-lpuart_state_t lpuart_1_State;
-
-const lpuart_user_config_t lpuart_1_InitConfig0 = {
-  .transferType = LPUART_USING_INTERRUPTS,
-  .baudRate = 9600UL,
-  .parityMode = LPUART_PARITY_DISABLED,
-  .stopBitCount = LPUART_ONE_STOP_BIT,
-  .bitCountPerChar = LPUART_8_BITS_PER_CHAR,
-  .rxDMAChannel = 0UL,
-  .txDMAChannel = 0UL
+const trgmux_inout_mapping_config_t trgmux_InOutMappingConfig0[TRGMUX_NUM_IN_OUT_MAPPING_CONFIGS0] =
+{
+    {TRGMUX_TRIG_SOURCE_LPIT_CH0, TRGMUX_TARGET_MODULE_ADC0_ADHWT_TLA0, false},
 };
+
+
+/*! trgmux configuration structure */
+const trgmux_user_config_t trgmux1_InitConfig0 = {
+    .numInOutMappingConfigs = TRGMUX_NUM_IN_OUT_MAPPING_CONFIGS0,
+    .inOutMappingConfig     = trgmux_InOutMappingConfig0,
+};
+
 
 

@@ -76,11 +76,13 @@
 /* SDK includes. */
 #include "interrupt_manager.h"
 #include "sdk_project_config.h"
+#include "freemaster.h"
 
 #include "BoardDefines.h"
 
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
 
 /* Priorities at which the tasks are created. */
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
@@ -88,6 +90,12 @@
 
 #define mainUART_TASK_PRIORITY              ( tskIDLE_PRIORITY + 1 )
 #define mainUART_TASK_STACK_SIZE            ( configMINIMAL_STACK_SIZE + 200 )
+
+#define mainFMSTR_TASK_PRIORITY             ( tskIDLE_PRIORITY + 1 )
+#define mainFMSTR_TASK_STACK_SIZE           ( configMINIMAL_STACK_SIZE + 200 )
+
+#define mainADC_TASK_PRIORITY                ( tskIDLE_PRIORITY + 1 )
+#define mainADC_TASK_STACK_SIZE              ( configMINIMAL_STACK_SIZE + 200 )
 
 /* The rate at which data is sent to the queue, specified in milliseconds, and
 converted to ticks using the portTICK_PERIOD_MS constant. */
@@ -126,6 +134,19 @@ an interrupt on this port. */
 #define STOP2   (4u)
 #define VLPS    (5u)
 
+/* Global variables used by FreeMASTER */
+
+#define ADC_INSTANCE        0UL
+#define ADC_CHN             12U
+#define ADC_NR_SAMPLES      72
+#define ADC_CHANNEL_INDEX   0UL
+#define LPIT_CHANNEL        0UL
+
+volatile bool       g_adcEvent = false;
+volatile uint16_t   g_conversionResult = 0U;
+
+volatile uint16_t   adcRawValue = 0U;
+
 /*-----------------------------------------------------------*/
 
 /*
@@ -139,6 +160,7 @@ static void prvSetupHardware( void );
 static void prvQueueReceiveTask( void *pvParameters );
 static void prvQueueSendTask( void *pvParameters );
 static void prvUartTask( void *pvParameters );
+static void prvFreeMasterTask( void *pvParameters );
 
 /*
  * The LED timer callback function.  This does nothing but switch off the
@@ -150,6 +172,12 @@ static uint8_t prvUartReadChar( void );
 
 static void prvHandlePowerMode( uint8_t ch );
 static void prvPrintCoreClock( void );
+
+/*
+ * ADC low power hardware trigger chain
+ */
+static void prvInitAdcForFreeMaster( void );
+
 
 /*-----------------------------------------------------------*/
 
@@ -177,7 +205,7 @@ void rtos_start( void )
 		xTaskCreate( prvQueueReceiveTask, "RX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_RECEIVE_TASK_PRIORITY, NULL );
 		xTaskCreate( prvQueueSendTask, "TX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_SEND_TASK_PRIORITY, NULL );
 		xTaskCreate( prvUartTask, "UART", mainUART_TASK_STACK_SIZE, NULL, mainUART_TASK_PRIORITY, NULL );
-
+		xTaskCreate( prvFreeMasterTask, "FMSTR", mainFMSTR_TASK_STACK_SIZE, NULL, mainFMSTR_TASK_PRIORITY, NULL );
 
 		/* Create the software timer that is responsible for turning off the LED
 		if the button is not pushed within 5000ms, as described at the top of
@@ -402,6 +430,17 @@ static void prvHandlePowerMode( uint8_t ch )
     prvUartPrint("----------------------------------------------------------------------------\r\n");
 }
 
+void ADC_IRQHandler(void)
+{
+    uint16_t adcValue = 0U;
+
+    ADC_DRV_GetChanResult(ADC_INSTANCE, ADC_CHANNEL_INDEX, &adcValue);
+
+    g_conversionResult = adcValue;
+    adcRawValue = adcValue;
+    g_adcEvent = true;
+}
+
 /*-----------------------------------------------------------*/
 
 static void prvUartTask( void *pvParameters )
@@ -509,6 +548,20 @@ unsigned long ulReceivedValue;
 		}
 	}
 }
+
+static void prvFreeMasterTask( void *pvParameters )
+{
+    (void)pvParameters;
+
+    FMSTR_Init();
+
+    for( ;; )
+    {
+        FMSTR_Poll();
+        vTaskDelay(pdMS_TO_TICKS(1));
+    }
+}
+
 /*-----------------------------------------------------------*/
 
 static void prvSetupHardware( void )
@@ -522,13 +575,48 @@ static void prvSetupHardware( void )
                    g_clockManCallbacksArr, CLOCK_MANAGER_CALLBACK_CNT);
     CLOCK_SYS_UpdateConfiguration(0U, CLOCK_MANAGER_POLICY_AGREEMENT);
 
+    /* Initialize pin mux:
+	 * - ADC0_SE12 analog input
+	 * - LPUART1 for FreeMASTER
+	 * - LPUART2 for TeraTerm menu
+	 * - LED / Button pins
+	 */
     PINS_DRV_Init(NUM_OF_CONFIGURED_PINS0, g_pin_mux_InitConfigArr0);
 
     boardSetup();
 
+    /* Power manager is already prepared in this RTOS project.
+	 * We will keep using it for RUN/VLPR/STOP/VLPS transition testing.
+	 */
     POWER_SYS_Init(&powerConfigsArr, POWER_MANAGER_CONFIG_CNT, &powerStaticCallbacksConfigsArr, POWER_MANAGER_CALLBACK_CNT);
 
+    /*
+     * UART for TeraTerm menu
+     */
     LPUART_DRV_Init(INST_LPUART_2, &lpuart_2_State, &lpuart_2_InitConfig0);
+
+    /*
+     * UART for FreeMASTER
+     */
+	LPUART_DRV_Init(INST_LPUART_1, &lpuart_1_State, &lpuart_1_InitConfig0);
+	INT_SYS_InstallHandler(LPUART1_RxTx_IRQn, FMSTR_Isr, NULL);
+	INT_SYS_EnableIRQ(LPUART1_RxTx_IRQn);
+
+	/*
+	 * ADC low power hardware trigger chain
+	 * LPIT CH0 -> TRGMUX -> ADC0 hardware trigger line
+	 */
+	TRGMUX_DRV_Init(INST_TRGMUX, &trgmux1_InitConfig0);
+
+	LPIT_DRV_Init(INST_LPIT_CONFIG_1, &lpit1_InitConfig);
+	LPIT_DRV_InitChannel(INST_LPIT_CONFIG_1, LPIT_CHANNEL, &lpit1_ChnConfig0);
+
+	prvInitAdcForFreeMaster();
+
+	/*
+	 * Start LPIT channel after ADC / IRQ setup is completed
+	 */
+	LPIT_DRV_StartTimerChannels(INST_LPIT_CONFIG_1, (1UL << LPIT_CHANNEL));
 
 	/* Change LED1, LED2 to outputs. */
 	PINS_DRV_SetPinsDirection(LED_GPIO,  (1 << LED1) | (1 << LED2));
@@ -549,6 +637,51 @@ static void prvSetupHardware( void )
     INT_SYS_SetPriority( BTN_PORT_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY );
 
 }
+
+static void prvInitAdcForFreeMaster( void )
+{
+    IRQn_Type adcIRQ;
+
+    /* Configure ADC converter to use hardware trigger.
+	 * ConvConfig0 must be the hardware-trigger configuration
+	 * copied from adc_low_power project.
+	 */
+    ADC_DRV_ConfigConverter(ADC_INSTANCE, &adc_config_1_ConvConfig0);
+
+    /* Auto calibration improves measurement stability before starting
+	 * periodic LPIT-triggered conversions.
+	 */
+    ADC_DRV_AutoCalibration(ADC_INSTANCE);
+
+    /* Hardware compare:
+	 * only generate valid conversion event when ADC result is above threshold.
+	 * In the low power example, threshold is 2048 for 12-bit ADC.
+	 */
+    ADC_DRV_ConfigHwCompare(ADC_INSTANCE, &adc_config_1_HwCompConfig0);
+
+    /* Channel configuration:
+	 * - external input channel 12 (ADC0_SE12)
+	 * - interrupt enabled
+	 */
+    ADC_DRV_ConfigChan(ADC_INSTANCE, 0U, &adc_config_1_ChnConfig0);
+
+    switch (ADC_INSTANCE)
+    {
+        case 0UL:
+            adcIRQ = ADC0_IRQn;
+            break;
+        case 1UL:
+            adcIRQ = ADC1_IRQn;
+            break;
+        default:
+            adcIRQ = ADC0_IRQn;
+            break;
+    }
+
+    INT_SYS_InstallHandler(adcIRQ, ADC_IRQHandler, NULL);
+    INT_SYS_EnableIRQ(adcIRQ);
+}
+
 /*-----------------------------------------------------------*/
 
 void vApplicationMallocFailedHook( void )

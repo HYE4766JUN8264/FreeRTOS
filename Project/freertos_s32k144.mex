@@ -74,6 +74,7 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="ADC0" signal="se, 12" pin_num="46" pin_signal="PTC14"/>
                </pins>
             </function>
          </functions_list>
@@ -122,29 +123,51 @@
                   <clock_source id="RTC.RTC_CLK_EXT_IN.outFreq" value="32.768 kHz" locked="false" enabled="false"/>
                </clock_sources>
                <clock_outputs>
+                  <clock_output id="ADC0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="ADC1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="BUS_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="CLKOUT.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="CMP0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="CORE_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="CRC0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="DMA0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="DMAMUX0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="EIM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="ERM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="EWM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="FIRCDIV1_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="FIRCDIV2_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="FLASH_CLK.outFreq" value="24 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FLEXCAN0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FLEXCAN1_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FLEXCAN2_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="FTFC0_CLK.outFreq" value="24 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FTM0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FTM1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FTM2_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FTM3_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FlexIO0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPI2C0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPIT0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_1K_CLK.outFreq" value="1 kHz" locked="false" accuracy=""/>
                   <clock_output id="LPO_CLK.outFreq" value="128 kHz" locked="false" accuracy=""/>
+                  <clock_output id="LPSPI0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPSPI1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPSPI2_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPTMR0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPUART0_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPUART1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPUART2_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="MPU0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="MSCM0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PDB0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="PDB1_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="PORTA_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="PORTB_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="PORTC_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="PORTD_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="PORTE_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
+                  <clock_output id="RTC0_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="RTC_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="SCGCLKOUT.outFreq" value="48 MHz" locked="false" accuracy=""/>
                   <clock_output id="SIRCDIV1_CLK.outFreq" value="8 MHz" locked="false" accuracy=""/>
@@ -158,36 +181,14 @@
                   <clock_output id="TRACE_CLK.outFreq" value="48 MHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
-                  <setting id="ADC0_CGC" value="Disabled" locked="false"/>
-                  <setting id="ADC1_CGC" value="Disabled" locked="false"/>
-                  <setting id="CMP0_CGC" value="Disabled" locked="false"/>
-                  <setting id="CRC_CGC" value="Disabled" locked="false"/>
-                  <setting id="EWM_CGC" value="Disabled" locked="false"/>
-                  <setting id="FLEXCAN0_CGC" value="Disabled" locked="false"/>
-                  <setting id="FLEXCAN1_CGC" value="Disabled" locked="false"/>
-                  <setting id="FLEXCAN2_CGC" value="Disabled" locked="false"/>
-                  <setting id="FTM0_CGC" value="Disabled" locked="false"/>
-                  <setting id="FTM1_CGC" value="Disabled" locked="false"/>
-                  <setting id="FTM2_CGC" value="Disabled" locked="false"/>
-                  <setting id="FTM3_CGC" value="Disabled" locked="false"/>
-                  <setting id="FlexIO0_CGC" value="Disabled" locked="false"/>
                   <setting id="HSRUN:SCG.DIVBUS.scale" value="2" locked="true"/>
                   <setting id="HSRUN:SCG.DIVCORE.scale" value="1" locked="true"/>
                   <setting id="HSRUN:SCG.DIVSLOW.scale" value="4" locked="true"/>
                   <setting id="HSRUN:SCG.SCSSEL.sel" value="SCG.SPLL_CLK" locked="false"/>
-                  <setting id="LPI2C0_CGC" value="Disabled" locked="false"/>
-                  <setting id="LPIT0_CGC" value="Disabled" locked="false"/>
-                  <setting id="LPSPI0_CGC" value="Disabled" locked="false"/>
-                  <setting id="LPSPI1_CGC" value="Disabled" locked="false"/>
-                  <setting id="LPSPI2_CGC" value="Disabled" locked="false"/>
-                  <setting id="LPTMR0_CGC" value="Disabled" locked="false"/>
                   <setting id="PCC.LPTMR0_FRAC.scale" value="1" locked="true"/>
                   <setting id="PCC.PREDIV.scale" value="1" locked="true"/>
                   <setting id="PCC.PREDIVTRACE.scale" value="1" locked="true"/>
                   <setting id="PCC.TRACE_FRAC.scale" value="1" locked="true"/>
-                  <setting id="PDB0_CGC" value="Disabled" locked="false"/>
-                  <setting id="PDB1_CGC" value="Disabled" locked="false"/>
-                  <setting id="RTC_CGC" value="Disabled" locked="false"/>
                   <setting id="RTC_CR_CPE_CFG" value="yes" locked="false"/>
                   <setting id="RUN:SCG.DIVBUS.scale" value="1" locked="true"/>
                   <setting id="RUN:SCG.DIVCORE.scale" value="1" locked="true"/>
@@ -289,22 +290,32 @@
                   <data type="Version">1.0.0</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.driver.lptmr" description="LPTMR Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.driver.lptmr" description="Unsupported version of the LPTMR Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">1.0.0</data>
-               </feature>
-            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.driver.adc" description="ADC driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
                </feature>
             </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.driver.adc" description="Unsupported version of the ADC driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lpit" description="LPIT Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.lpit" description="Unsupported version of the LPIT Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.trgmux" description="TRGMUX Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.driver.trgmux" description="Unsupported version of the TRGMUX Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
                <feature name="version" evaluation="equivalent">
                   <data type="Version">1.0.0</data>
                </feature>
@@ -318,8 +329,8 @@
             <file path="board/peripherals_adc_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_dma_controller_1.c" update_enabled="true"/>
             <file path="board/peripherals_dma_controller_1.h" update_enabled="true"/>
-            <file path="board/peripherals_lptmr_0.c" update_enabled="true"/>
-            <file path="board/peripherals_lptmr_0.h" update_enabled="true"/>
+            <file path="board/peripherals_lpit_config_1.c" update_enabled="true"/>
+            <file path="board/peripherals_lpit_config_1.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.c" update_enabled="true"/>
             <file path="board/peripherals_lpuart_1.h" update_enabled="true"/>
             <file path="board/peripherals_lpuart_2.c" update_enabled="true"/>
@@ -328,6 +339,8 @@
             <file path="board/peripherals_osif_1.h" update_enabled="true"/>
             <file path="board/peripherals_power_manager_1.c" update_enabled="true"/>
             <file path="board/peripherals_power_manager_1.h" update_enabled="true"/>
+            <file path="board/peripherals_trgmux_1.c" update_enabled="true"/>
+            <file path="board/peripherals_trgmux_1.h" update_enabled="true"/>
             <file path="board/sdk_project_config.h" update_enabled="true"/>
          </generated_project_files>
          <peripherals_profile>
@@ -444,7 +457,7 @@
                               <setting name="name" value="lpuart_1_InitConfig0"/>
                               <setting name="readonly" value="true"/>
                               <setting name="transferType" value="LPUART_USING_INTERRUPTS"/>
-                              <setting name="baudRate" value="9200"/>
+                              <setting name="baudRate" value="9600"/>
                               <setting name="parityMode" value="LPUART_PARITY_DISABLED"/>
                               <setting name="stopBitCount" value="LPUART_ONE_STOP_BIT"/>
                               <setting name="bitCountPerChar" value="LPUART_8_BITS_PER_CHAR"/>
@@ -545,41 +558,65 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="lptmr_0" uuid="d0662fd2-39c2-4315-8141-f0b3c7f36c12" type="lptmr" type_id="lptmr" mode="general" peripheral="LPTMR_0" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
-                     <config_set name="lptmr">
-                        <array name="lptmrConfig">
-                           <struct name="0">
-                              <setting name="name" value="lptmr_0_config0"/>
-                              <setting name="readOnly" value="true"/>
-                              <setting name="workMode" value="LPTMR_WORKMODE_TIMER"/>
-                              <setting name="dmaRequest" value="false"/>
-                              <setting name="interruptEnable" value="true"/>
-                              <setting name="freeRun" value="false"/>
-                              <setting name="compareValue" value="1000000"/>
-                              <setting name="counterUnits" value="LPTMR_COUNTER_UNITS_MICROSECONDS"/>
-                              <setting name="clockSelect" value="LPTMR_CLOCKSOURCE_SIRCDIV2"/>
-                              <setting name="prescaler" value="LPTMR_PRESCALE_2"/>
-                              <setting name="bypassPrescaler" value="false"/>
-                              <setting name="pinSelect" value="LPTMR_PINSELECT_TRGMUX"/>
-                              <setting name="pinPolarity" value="LPTMR_PINPOLARITY_RISING"/>
-                           </struct>
-                        </array>
-                     </config_set>
-                  </instance>
-                  <instance name="adc_config_1" uuid="c0e57533-5446-4fe2-8dd9-1c59d7ec0092" type="adc_config" type_id="adc" mode="general" peripheral="ADC_1" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                  <instance name="adc_config_1" uuid="c0e57533-5446-4fe2-8dd9-1c59d7ec0092" type="adc_config" type_id="adc" mode="general" peripheral="ADC_0" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
                      <config_set name="adc">
                         <array name="adcConverterCfg">
                            <struct name="0">
                               <setting name="name" value="adc_config_1_ConvConfig0"/>
                               <setting name="readonly" value="true"/>
-                              <setting name="clockDivide" value="ADC_CLK_DIVIDE_4"/>
-                              <setting name="sampleTime" value="255"/>
+                              <setting name="clockDivide" value="ADC_CLK_DIVIDE_1"/>
+                              <setting name="sampleTime" value="12"/>
                               <setting name="resolution" value="ADC_RESOLUTION_12BIT"/>
                               <setting name="inputClock" value="ADC_CLK_ALT_1"/>
                               <setting name="trigger" value="ADC_TRIGGER_HARDWARE"/>
-                              <setting name="pretriggerSel" value="ADC_PRETRIGGER_SEL_PDB"/>
-                              <setting name="triggerSel" value="ADC_TRIGGER_SEL_PDB"/>
-                              <setting name="dmaEnable" value="true"/>
+                              <setting name="pretriggerSel" value="ADC_PRETRIGGER_SEL_TRGMUX"/>
+                              <setting name="triggerSel" value="ADC_TRIGGER_SEL_TRGMUX"/>
+                              <setting name="dmaEnable" value="false"/>
+                              <setting name="voltageRef" value="ADC_VOLTAGEREF_VREF"/>
+                              <setting name="continuousConvEnable" value="false"/>
+                              <setting name="supplyMonitoringEnable" value="false"/>
+                           </struct>
+                           <struct name="1">
+                              <setting name="name" value="adc_config_1_ConvConfig1"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="clockDivide" value="ADC_CLK_DIVIDE_1"/>
+                              <setting name="sampleTime" value="12"/>
+                              <setting name="resolution" value="ADC_RESOLUTION_12BIT"/>
+                              <setting name="inputClock" value="ADC_CLK_ALT_1"/>
+                              <setting name="trigger" value="ADC_TRIGGER_SOFTWARE"/>
+                              <setting name="pretriggerSel" value="ADC_PRETRIGGER_SEL_TRGMUX"/>
+                              <setting name="triggerSel" value="ADC_TRIGGER_SEL_TRGMUX"/>
+                              <setting name="dmaEnable" value="false"/>
+                              <setting name="voltageRef" value="ADC_VOLTAGEREF_VREF"/>
+                              <setting name="continuousConvEnable" value="false"/>
+                              <setting name="supplyMonitoringEnable" value="false"/>
+                           </struct>
+                           <struct name="2">
+                              <setting name="name" value="adc_config_1_ConvConfig2"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="clockDivide" value="ADC_CLK_DIVIDE_1"/>
+                              <setting name="sampleTime" value="12"/>
+                              <setting name="resolution" value="ADC_RESOLUTION_12BIT"/>
+                              <setting name="inputClock" value="ADC_CLK_ALT_1"/>
+                              <setting name="trigger" value="ADC_TRIGGER_SOFTWARE"/>
+                              <setting name="pretriggerSel" value="ADC_PRETRIGGER_SEL_TRGMUX"/>
+                              <setting name="triggerSel" value="ADC_TRIGGER_SEL_TRGMUX"/>
+                              <setting name="dmaEnable" value="false"/>
+                              <setting name="voltageRef" value="ADC_VOLTAGEREF_VREF"/>
+                              <setting name="continuousConvEnable" value="false"/>
+                              <setting name="supplyMonitoringEnable" value="false"/>
+                           </struct>
+                           <struct name="3">
+                              <setting name="name" value="adc_config_1_ConvConfig3"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="clockDivide" value="ADC_CLK_DIVIDE_1"/>
+                              <setting name="sampleTime" value="12"/>
+                              <setting name="resolution" value="ADC_RESOLUTION_12BIT"/>
+                              <setting name="inputClock" value="ADC_CLK_ALT_1"/>
+                              <setting name="trigger" value="ADC_TRIGGER_SOFTWARE"/>
+                              <setting name="pretriggerSel" value="ADC_PRETRIGGER_SEL_TRGMUX"/>
+                              <setting name="triggerSel" value="ADC_TRIGGER_SEL_TRGMUX"/>
+                              <setting name="dmaEnable" value="false"/>
                               <setting name="voltageRef" value="ADC_VOLTAGEREF_VREF"/>
                               <setting name="continuousConvEnable" value="false"/>
                               <setting name="supplyMonitoringEnable" value="false"/>
@@ -589,27 +626,80 @@
                            <struct name="0">
                               <setting name="name" value="adc_config_1_HwCompConfig0"/>
                               <setting name="readonly" value="true"/>
-                              <setting name="compareEnable" value="false"/>
-                              <setting name="compareGreaterThanEnable" value="false"/>
+                              <setting name="compareEnable" value="true"/>
+                              <setting name="compareGreaterThanEnable" value="true"/>
                               <setting name="compareRangeFuncEnable" value="false"/>
-                              <setting name="compVal1" value="0"/>
+                              <setting name="compVal1" value="2048"/>
                               <setting name="compVal2" value="0"/>
                            </struct>
                         </array>
-                        <array name="adcAverageCfg">
-                           <struct name="0">
-                              <setting name="name" value="adc_config_1_HwAvgConfig0"/>
-                              <setting name="readonly" value="false"/>
-                              <setting name="hwAvgEnable" value="false"/>
-                              <setting name="hwAverage" value="ADC_AVERAGE_4"/>
-                           </struct>
-                        </array>
+                        <array name="adcAverageCfg"/>
                         <array name="adcChanCfg">
                            <struct name="0">
                               <setting name="name" value="adc_config_1_ChnConfig0"/>
-                              <setting name="readonly" value="false"/>
+                              <setting name="readonly" value="true"/>
                               <setting name="interruptEnable" value="true"/>
-                              <setting name="channel" value="ADC_INPUTCHAN_EXT11"/>
+                              <setting name="channel" value="ADC_INPUTCHAN_EXT12"/>
+                           </struct>
+                           <struct name="1">
+                              <setting name="name" value="adc_config_1_ChnConfig1"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="interruptEnable" value="true"/>
+                              <setting name="channel" value="ADC_INPUTCHAN_EXT12"/>
+                           </struct>
+                           <struct name="2">
+                              <setting name="name" value="adc_config_1_ChnConfig2"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="interruptEnable" value="true"/>
+                              <setting name="channel" value="ADC_INPUTCHAN_EXT12"/>
+                           </struct>
+                           <struct name="3">
+                              <setting name="name" value="adc_config_1_ChnConfig3"/>
+                              <setting name="readonly" value="true"/>
+                              <setting name="interruptEnable" value="true"/>
+                              <setting name="channel" value="ADC_INPUTCHAN_EXT12"/>
+                           </struct>
+                        </array>
+                     </config_set>
+                  </instance>
+                  <instance name="lpit_config_1" uuid="59bb8ba1-491b-4b21-a825-01bdf9489441" type="lpit_config" type_id="lpit" mode="general" peripheral="LPIT_0" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="lpit">
+                        <struct name="lpitConfig">
+                           <setting name="name" value="lpit1_InitConfig"/>
+                           <setting name="enableRunInDebug" value="true"/>
+                           <setting name="enableRunInDoze" value="true"/>
+                        </struct>
+                        <array name="lpitChannelConfig">
+                           <struct name="0">
+                              <setting name="name" value="lpit1_ChnConfig0"/>
+                              <setting name="cfgReadOnly" value="true"/>
+                              <setting name="timerMode" value="LPIT_PERIODIC_COUNTER"/>
+                              <setting name="periodUnits" value="LPIT_PERIOD_UNITS_COUNTS"/>
+                              <setting name="period" value="1000000"/>
+                              <setting name="triggerSource" value="LPIT_TRIGGER_SOURCE_INTERNAL"/>
+                              <setting name="triggerSelect" value="0U"/>
+                              <setting name="enableReloadOnTrigger" value="false"/>
+                              <setting name="enableStopOnInterrupt" value="false"/>
+                              <setting name="enableStartOnTrigger" value="false"/>
+                              <setting name="chainChannel" value="false"/>
+                              <setting name="isInterruptEnabled" value="false"/>
+                           </struct>
+                        </array>
+                     </config_set>
+                  </instance>
+                  <instance name="trgmux_1" uuid="4e4b7473-633b-4090-b946-7f6f71a97543" type="trgmux_config" type_id="trgmux" mode="general" peripheral="TRGMUX" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="trgmux">
+                        <array name="trgmuxCfg">
+                           <struct name="0">
+                              <setting name="name" value="trgmux1_InitConfig0"/>
+                              <setting name="readonly" value="true"/>
+                              <array name="mapping_cfg">
+                                 <struct name="0">
+                                    <setting name="triggerSource" value="TRGMUX_TRIG_SOURCE_LPIT_CH0"/>
+                                    <setting name="targetModule" value="TRGMUX_TARGET_MODULE_ADC0_ADHWT_TLA0"/>
+                                    <setting name="lockreg" value="false"/>
+                                 </struct>
+                              </array>
                            </struct>
                         </array>
                      </config_set>

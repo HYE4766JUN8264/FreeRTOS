@@ -22,38 +22,41 @@ functionalGroups:
 /*******************************************************************************
  * Included files 
  ******************************************************************************/
-#include "peripherals_lptmr_0.h"
+#include "peripherals_lpit_config_1.h"
 
 /*******************************************************************************
- * lptmr_0 initialization code
+ * lpit_config_1 initialization code
  ******************************************************************************/
 /* clang-format off */
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 instance:
-- name: 'lptmr_0'
-- type: 'lptmr'
+- name: 'lpit_config_1'
+- type: 'lpit_config'
 - mode: 'general'
 - custom_name_enabled: 'true'
-- type_id: 'lptmr'
+- type_id: 'lpit'
 - functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'LPTMR_0'
+- peripheral: 'LPIT_0'
 - config_sets:
-  - lptmr:
-    - lptmrConfig:
+  - lpit:
+    - lpitConfig:
+      - name: 'lpit1_InitConfig'
+      - enableRunInDebug: 'true'
+      - enableRunInDoze: 'true'
+    - lpitChannelConfig:
       - 0:
-        - name: 'lptmr_0_config0'
-        - readOnly: 'true'
-        - workMode: 'LPTMR_WORKMODE_TIMER'
-        - dmaRequest: 'false'
-        - interruptEnable: 'true'
-        - freeRun: 'false'
-        - compareValue: '1000000'
-        - counterUnits: 'LPTMR_COUNTER_UNITS_MICROSECONDS'
-        - clockSelect: 'LPTMR_CLOCKSOURCE_SIRCDIV2'
-        - prescaler: 'LPTMR_PRESCALE_2'
-        - bypassPrescaler: 'false'
-        - pinSelect: 'LPTMR_PINSELECT_TRGMUX'
-        - pinPolarity: 'LPTMR_PINPOLARITY_RISING'
+        - name: 'lpit1_ChnConfig0'
+        - cfgReadOnly: 'true'
+        - timerMode: 'LPIT_PERIODIC_COUNTER'
+        - periodUnits: 'LPIT_PERIOD_UNITS_COUNTS'
+        - period: '1000000'
+        - triggerSource: 'LPIT_TRIGGER_SOURCE_INTERNAL'
+        - triggerSelect: '0U'
+        - enableReloadOnTrigger: 'false'
+        - enableStopOnInterrupt: 'false'
+        - enableStartOnTrigger: 'false'
+        - chainChannel: 'false'
+        - isInterruptEnabled: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 
@@ -66,19 +69,24 @@ instance:
  *
  */
 
-/* LPTMR configuration structure 0 */
-const lptmr_config_t  lptmr_0_config0 = {
-  .workMode = LPTMR_WORKMODE_TIMER,
-  .dmaRequest = false,
-  .interruptEnable = true,
-  .freeRun = false,
-  .compareValue = 1000000UL,
-  .counterUnits = LPTMR_COUNTER_UNITS_MICROSECONDS,
-  .clockSelect = LPTMR_CLOCKSOURCE_SIRCDIV2,
-  .prescaler = LPTMR_PRESCALE_2,
-  .bypassPrescaler = false,
-  .pinSelect = LPTMR_PINSELECT_TRGMUX,
-  .pinPolarity = LPTMR_PINPOLARITY_RISING
+/* lPIT global configuration */
+const lpit_user_config_t  lpit1_InitConfig = {
+  .enableRunInDebug = true,
+  .enableRunInDoze = true
+};
+
+/* Channel configuration 0*/
+const lpit_user_channel_config_t  lpit1_ChnConfig0 = {
+  .timerMode = LPIT_PERIODIC_COUNTER,
+  .periodUnits = LPIT_PERIOD_UNITS_COUNTS,
+  .period = 1000000UL,
+  .triggerSource = LPIT_TRIGGER_SOURCE_INTERNAL,
+  .triggerSelect = 0U,
+  .enableReloadOnTrigger = false,
+  .enableStopOnInterrupt = false,
+  .enableStartOnTrigger = false,
+  .chainChannel = false,
+  .isInterruptEnabled = false
 };
 
 

@@ -341,14 +341,14 @@
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/interrupt/doxygen/interrupt.dox</locationURI>
 		</link>
 		<link>
-			<name>doc/SDK/platform/drivers/src/lptmr/doxygen/lptmr.dox</name>
+			<name>doc/SDK/platform/drivers/src/lpit/doxygen/lpit.dox</name>
 			<type>1</type>
-			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lptmr/doxygen/lptmr.dox</locationURI>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lpit/doxygen/lpit.dox</locationURI>
 		</link>
 		<link>
-			<name>doc/SDK/platform/drivers/src/lptmr/doxygen/lptmr_driver.dox</name>
+			<name>doc/SDK/platform/drivers/src/lpit/doxygen/lpit_driver.dox</name>
 			<type>1</type>
-			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lptmr/doxygen/lptmr_driver.dox</locationURI>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/lpit/doxygen/lpit_driver.dox</locationURI>
 		</link>
 		<link>
 			<name>doc/SDK/platform/drivers/src/lpuart/doxygen/lpuart_driver.dox</name>
@@ -364,6 +364,11 @@
 			<name>doc/SDK/platform/drivers/src/power/doxygen/power_manager.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/power/doxygen/power_manager.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/drivers/src/trgmux/doxygen/trgmux_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/trgmux/doxygen/trgmux_driver.dox</locationURI>
 		</link>
 		<link>
 			<name>doc/SDK/platform/drivers/src/clock/S32K1xx/doxygen/clock_S32K1xx.dox</name>

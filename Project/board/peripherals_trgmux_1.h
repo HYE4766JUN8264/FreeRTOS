@@ -3,8 +3,8 @@
  * will be overwritten if the respective S32 Config Tools is used to update this file.
  **********************************************************************************************************************/
 
-#ifndef adc_config_1_H
-#define adc_config_1_H
+#ifndef trgmux_1_H
+#define trgmux_1_H
 
 /**
  * @page misra_violations MISRA-C:2012 violations
@@ -17,48 +17,24 @@
 /*******************************************************************************
  * Included files 
  ******************************************************************************/
-#include "adc_driver.h"
+#include "trgmux_driver.h"
 
 /*******************************************************************************
  * Definitions 
  ******************************************************************************/
-
-/*Device instance number */
-#define INST_ADC_CONFIG_1  (0U)
+#define INST_TRGMUX  (0U)
+#define TRGMUX_NUM_IN_OUT_MAPPING_CONFIGS0  (1U)
 
 /*******************************************************************************
  * Global variables 
  ******************************************************************************/
 
-/* User configurations */
+/*! @brief Declaration of InOut Mapping configuration */
+extern const trgmux_inout_mapping_config_t trgmux_InOutMappingConfig0[TRGMUX_NUM_IN_OUT_MAPPING_CONFIGS0];
 
-/* Converter configuration 0 */
-extern const adc_converter_config_t adc_config_1_ConvConfig0;
-
-/* Converter configuration 1 */
-extern const adc_converter_config_t adc_config_1_ConvConfig1;
-
-/* Converter configuration 2 */
-extern const adc_converter_config_t adc_config_1_ConvConfig2;
-
-/* Converter configuration 3 */
-extern const adc_converter_config_t adc_config_1_ConvConfig3;
-
-/* Hw Compare configuration 0 */
-extern const adc_compare_config_t adc_config_1_HwCompConfig0;
-
-/* Channel configuration 0 */
-extern const adc_chan_config_t adc_config_1_ChnConfig0;
-
-/* Channel configuration 1 */
-extern const adc_chan_config_t adc_config_1_ChnConfig1;
-
-/* Channel configuration 2 */
-extern const adc_chan_config_t adc_config_1_ChnConfig2;
-
-/* Channel configuration 3 */
-extern const adc_chan_config_t adc_config_1_ChnConfig3;
+/*! @brief Configuration declaration */
+extern const trgmux_user_config_t trgmux1_InitConfig0;
 
 
 
-#endif /* adc_config_1_H */
+#endif /* trgmux_1_H */
