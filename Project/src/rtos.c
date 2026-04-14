@@ -83,6 +83,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 /* Priorities at which the tasks are created. */
 #define mainQUEUE_RECEIVE_TASK_PRIORITY		( tskIDLE_PRIORITY + 2 )
@@ -94,8 +95,11 @@
 #define mainFMSTR_TASK_PRIORITY             ( tskIDLE_PRIORITY + 1 )
 #define mainFMSTR_TASK_STACK_SIZE           ( configMINIMAL_STACK_SIZE + 200 )
 
-#define mainADC_TASK_PRIORITY                ( tskIDLE_PRIORITY + 1 )
-#define mainADC_TASK_STACK_SIZE              ( configMINIMAL_STACK_SIZE + 200 )
+#define mainADC_TASK_PRIORITY               ( tskIDLE_PRIORITY + 1 )
+#define mainADC_TASK_STACK_SIZE             ( configMINIMAL_STACK_SIZE + 200 )
+
+#define mainCAN_RX_TASK_PRIORITY            ( tskIDLE_PRIORITY + 2 )
+#define mainCAN_RX_TASK_STACK_SIZE          ( configMINIMAL_STACK_SIZE + 200 )
 
 /* The rate at which data is sent to the queue, specified in milliseconds, and
 converted to ticks using the portTICK_PERIOD_MS constant. */
@@ -148,6 +152,37 @@ volatile uint16_t   g_conversionResult = 0U;
 volatile uint16_t   adcRawValue = 0U;
 
 /*-----------------------------------------------------------*/
+/* CAN definitions                                           */
+/*-----------------------------------------------------------*/
+
+/* Use same role mapping as can_pal example */
+#define MASTER
+/* #define SLAVE */
+
+#if defined(MASTER)
+    #define TX_MAILBOX  (1UL)
+    #define TX_MSG_ID   (1UL)
+    #define RX_MAILBOX  (0UL)
+    #define RX_MSG_ID   (2UL)
+#elif defined(SLAVE)
+    #define TX_MAILBOX  (0UL)
+    #define TX_MSG_ID   (2UL)
+    #define RX_MAILBOX  (1UL)
+    #define RX_MSG_ID   (1UL)
+#endif
+
+#define CAN_TX_TRIGGER_PIN   (12UL)
+
+typedef enum
+{
+    CAN_TOGGLE_REQUEST = 0x00U
+} can_commands_list;
+
+static uint8_t g_canCommand = (uint8_t)CAN_TOGGLE_REQUEST;
+
+static volatile bool g_canTxRequest = false;
+
+/*-----------------------------------------------------------*/
 
 /*
  * Setup the NVIC, LED outputs, and button inputs.
@@ -161,6 +196,8 @@ static void prvQueueReceiveTask( void *pvParameters );
 static void prvQueueSendTask( void *pvParameters );
 static void prvUartTask( void *pvParameters );
 static void prvFreeMasterTask( void *pvParameters );
+static void prvCanRxTask( void *pvParameters );
+static void prvCanTxTask( void *pvParameters );
 
 /*
  * The LED timer callback function.  This does nothing but switch off the
@@ -173,11 +210,23 @@ static uint8_t prvUartReadChar( void );
 static void prvHandlePowerMode( uint8_t ch );
 static void prvPrintCoreClock( void );
 
+static void prvLedInit( void );
+static void prvLedApply( bool redOn, bool greenOn, bool blueOn );
+static void prvLedBluePulseTrigger( void );
+static void prvLedSetBaseModeRun( void );
+static void prvLedSetBaseModeSleep( void );
+static void prvLedService( void );
+
 /*
  * ADC low power hardware trigger chain
  */
 static void prvInitAdcForFreeMaster( void );
 
+/*
+ * CAN helpers
+ */
+static void prvCanInit( void );
+static void prvCanSendToggleRequest( void );
 
 /*-----------------------------------------------------------*/
 
@@ -186,6 +235,38 @@ static QueueHandle_t xQueue = NULL;
 
 /* The LED software timer.  This uses prvButtonLEDTimerCallback() as its callback function. */
 static TimerHandle_t xButtonLEDTimer = NULL;
+
+/*-----------------------------------------------------------*/
+/* LED Manager                                               */
+/*-----------------------------------------------------------*/
+
+#define BLUE_PULSE_MS         (100UL / portTICK_PERIOD_MS)
+#define BASE_BLINK_PERIOD_MS  (200UL / portTICK_PERIOD_MS)
+
+typedef enum
+{
+    LED_BASE_MODE_RUN = 0,
+    LED_BASE_MODE_SLEEP
+} led_base_mode_t;
+
+typedef struct
+{
+    led_base_mode_t baseMode;
+    bool baseBlinkOn;
+    TickType_t baseBlinkNextTick;
+
+    bool bluePulseActive;
+    TickType_t bluePulseOffTick;
+} led_state_t;
+
+static led_state_t g_ledState =
+{
+    LED_BASE_MODE_RUN,
+    false,
+    0U,
+    false,
+    0U
+};
 
 /*-----------------------------------------------------------*/
 
@@ -206,6 +287,8 @@ void rtos_start( void )
 		xTaskCreate( prvQueueSendTask, "TX", configMINIMAL_STACK_SIZE, NULL, mainQUEUE_SEND_TASK_PRIORITY, NULL );
 		xTaskCreate( prvUartTask, "UART", mainUART_TASK_STACK_SIZE, NULL, mainUART_TASK_PRIORITY, NULL );
 		xTaskCreate( prvFreeMasterTask, "FMSTR", mainFMSTR_TASK_STACK_SIZE, NULL, mainFMSTR_TASK_PRIORITY, NULL );
+		xTaskCreate( prvCanRxTask, "CANRX", mainCAN_RX_TASK_STACK_SIZE, NULL, mainCAN_RX_TASK_PRIORITY, NULL );
+		xTaskCreate( prvCanTxTask, "CANTX", mainCAN_RX_TASK_STACK_SIZE, NULL, mainCAN_RX_TASK_PRIORITY, NULL );
 
 		/* Create the software timer that is responsible for turning off the LED
 		if the button is not pushed within 5000ms, as described at the top of
@@ -228,16 +311,127 @@ void rtos_start( void )
 	for more details. */
 	for( ;; );
 }
+
+static void prvLedInit( void )
+{
+    PINS_DRV_SetPinsDirection(LED_GPIO, (1U << LED_RED) | (1U << LED_GREEN) | (1U << LED_BLUE));
+
+    g_ledState.baseMode = LED_BASE_MODE_RUN;
+    g_ledState.baseBlinkOn = false;
+    g_ledState.baseBlinkNextTick = xTaskGetTickCount() + BASE_BLINK_PERIOD_MS;
+    g_ledState.bluePulseActive = false;
+    g_ledState.bluePulseOffTick = 0U;
+
+    prvLedApply(false, false, false);
+}
+
+static void prvLedApply( bool redOn, bool greenOn, bool blueOn )
+{
+    uint32_t pinsToClear = 0U;
+    uint32_t pinsToSet   = 0U;
+
+    if (redOn)
+    {
+        pinsToClear |= (1U << LED_RED);
+    }
+    else
+    {
+        pinsToSet |= (1U << LED_RED);
+    }
+
+    if (greenOn)
+    {
+        pinsToClear |= (1U << LED_GREEN);
+    }
+    else
+    {
+        pinsToSet |= (1U << LED_GREEN);
+    }
+
+    if (blueOn)
+    {
+        pinsToClear |= (1U << LED_BLUE);
+    }
+    else
+    {
+        pinsToSet |= (1U << LED_BLUE);
+    }
+
+    if (pinsToClear != 0U)
+    {
+        PINS_DRV_ClearPins(LED_GPIO, pinsToClear);
+    }
+
+    if (pinsToSet != 0U)
+    {
+        PINS_DRV_SetPins(LED_GPIO, pinsToSet);
+    }
+}
+
+static void prvLedBluePulseTrigger( void )
+{
+    g_ledState.bluePulseActive = true;
+    g_ledState.bluePulseOffTick = xTaskGetTickCount() + BLUE_PULSE_MS;
+}
+
+static void prvLedSetBaseModeRun( void )
+{
+    g_ledState.baseMode = LED_BASE_MODE_RUN;
+    g_ledState.baseBlinkOn = false;
+    g_ledState.baseBlinkNextTick = xTaskGetTickCount() + BASE_BLINK_PERIOD_MS;
+}
+
+static void prvLedSetBaseModeSleep( void )
+{
+    g_ledState.baseMode = LED_BASE_MODE_SLEEP;
+    g_ledState.baseBlinkOn = false;
+    g_ledState.baseBlinkNextTick = xTaskGetTickCount() + BASE_BLINK_PERIOD_MS;
+}
+
+static void prvLedService( void )
+{
+    TickType_t now = xTaskGetTickCount();
+    bool redOn = false;
+    bool greenOn = false;
+    bool blueOn = false;
+
+    if (now >= g_ledState.baseBlinkNextTick)
+    {
+        g_ledState.baseBlinkOn = !g_ledState.baseBlinkOn;
+        g_ledState.baseBlinkNextTick = now + BASE_BLINK_PERIOD_MS;
+    }
+
+    if ((g_ledState.bluePulseActive == true) &&
+        (now >= g_ledState.bluePulseOffTick))
+    {
+        g_ledState.bluePulseActive = false;
+    }
+
+    if (g_ledState.bluePulseActive == true)
+    {
+        blueOn = true;
+    }
+    else
+    {
+        if (g_ledState.baseMode == LED_BASE_MODE_RUN)
+        {
+            greenOn = g_ledState.baseBlinkOn;
+        }
+        else
+        {
+            redOn = g_ledState.baseBlinkOn;
+        }
+    }
+
+    prvLedApply(redOn, greenOn, blueOn);
+}
+
 /*-----------------------------------------------------------*/
 
 static void prvButtonLEDTimerCallback( TimerHandle_t xTimer )
 {
 	/* Casting xTimer to void because it is unused */
 	(void)xTimer;
-
-	/* The timer has expired - so no button pushes have occurred in the last
-	five seconds - turn the LED off. */
-	PINS_DRV_SetPins(LED_GPIO, (1 << LED1));
 }
 /*-----------------------------------------------------------*/
 
@@ -245,18 +439,32 @@ static void prvButtonLEDTimerCallback( TimerHandle_t xTimer )
 void vPort_C_ISRHandler( void )
 {
     portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
+    uint32_t portFlags = PINS_DRV_GetPortIntFlag(BTN_PORT);
 
-	/* The button was pushed, so ensure the LED is on before resetting the
-	LED timer.  The LED timer will turn the LED off if the button is not
-	pushed within 5000ms. */
-    PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
-	/* This interrupt safe FreeRTOS function can be called from this interrupt
-	because the interrupt priority is below the
-	configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY setting in FreeRTOSConfig.h. */
-	xTimerResetFromISR( xButtonLEDTimer, &xHigherPriorityTaskWoken );
+    if ((portFlags & (1UL << BTN_PIN)) != 0UL)
+    {
+		/* This interrupt safe FreeRTOS function can be called from this interrupt
+		because the interrupt priority is below the
+		configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY setting in FreeRTOSConfig.h. */
+		if (xButtonLEDTimer != NULL)
+		{
+			xTimerResetFromISR( xButtonLEDTimer, &xHigherPriorityTaskWoken );
+		}
 
-	/* Clear the interrupt before leaving. */
-	PINS_DRV_ClearPortIntFlagCmd(BTN_PORT);
+		prvLedSetBaseModeRun();
+		POWER_SYS_SetMode(RUN, POWER_MANAGER_POLICY_AGREEMENT);
+
+		/* Clear the interrupt before leaving. */
+		PINS_DRV_ClearPinIntFlagCmd(BTN_PORT, BTN_PIN);
+    }
+
+    if ((portFlags & (1UL << CAN_TX_TRIGGER_PIN)) != 0UL)
+    {
+        /* CAN TX request flag set only */
+        g_canTxRequest = true;
+
+        PINS_DRV_ClearPinIntFlagCmd(BTN_PORT, CAN_TX_TRIGGER_PIN);
+    }
 
 	/* If calling xTimerResetFromISR() caused a task (in this case the timer
 	service/daemon task) to unblock, and the unblocked task has a priority
@@ -265,6 +473,10 @@ void vPort_C_ISRHandler( void )
 	portEND_SWITCHING_ISR() will ensure the unblocked task runs next. */
 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
 }
+
+/*-----------------------------------------------------------*/
+/* UART helpers                                              */
+/*-----------------------------------------------------------*/
 
 static void prvUartPrint( const char *str )
 {
@@ -276,7 +488,6 @@ static void prvUartPrint( const char *str )
     	vTaskDelay(pdMS_TO_TICKS(1));
     }
 }
-/*-----------------------------------------------------------*/
 
 static uint8_t prvUartReadChar( void )
 {
@@ -303,6 +514,9 @@ static void prvPrintCoreClock( void )
     prvUartPrint(buffer);
     prvUartPrint("[Hz] \r\n");
 }
+
+/*-----------------------------------------------------------*/
+/* Power mode handler                                        */
 /*-----------------------------------------------------------*/
 
 static void prvHandlePowerMode( uint8_t ch )
@@ -315,6 +529,8 @@ static void prvHandlePowerMode( uint8_t ch )
             retV = POWER_SYS_SetMode(HSRUN, POWER_MANAGER_POLICY_AGREEMENT);
             if (retV == STATUS_SUCCESS)
             {
+            	prvLedSetBaseModeRun();
+
             	prvUartPrint("************************ CPU is in HSRUN mode.\r\n");
             	prvUartPrint("************************ Core frequency: ");
             	prvPrintCoreClock();
@@ -329,6 +545,8 @@ static void prvHandlePowerMode( uint8_t ch )
             retV = POWER_SYS_SetMode(RUN, POWER_MANAGER_POLICY_AGREEMENT);
             if (retV == STATUS_SUCCESS)
             {
+            	prvLedSetBaseModeRun();
+
             	prvUartPrint("************************ CPU is in RUN mode.\r\n");
             	prvUartPrint("************************ Core frequency: ");
             	prvPrintCoreClock();
@@ -343,6 +561,8 @@ static void prvHandlePowerMode( uint8_t ch )
             retV = POWER_SYS_SetMode(VLPR, POWER_MANAGER_POLICY_AGREEMENT);
             if (retV == STATUS_SUCCESS)
             {
+            	prvLedSetBaseModeRun();
+
             	prvUartPrint("************************ CPU is in VLPR mode.\r\n");
             	prvUartPrint("************************ Core frequency: ");
             	prvPrintCoreClock();
@@ -356,8 +576,7 @@ static void prvHandlePowerMode( uint8_t ch )
 		case '4':
 			prvUartPrint("******** CPU is going in STOP1 mode...\r\n");
 
-			PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
-			PINS_DRV_SetPins(LED_GPIO, (1 << LED2));
+			prvLedSetBaseModeSleep();
 
 			retV = POWER_SYS_SetMode(STOP1, POWER_MANAGER_POLICY_AGREEMENT);
 			if (retV == STATUS_SUCCESS)
@@ -374,8 +593,7 @@ static void prvHandlePowerMode( uint8_t ch )
 		case '5':
 			prvUartPrint("******** CPU is going in STOP2 mode...\r\n");
 
-			PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
-			PINS_DRV_SetPins(LED_GPIO, (1 << LED2));
+			prvLedSetBaseModeSleep();
 
 			retV = POWER_SYS_SetMode(STOP2, POWER_MANAGER_POLICY_AGREEMENT);
 			if (retV == STATUS_SUCCESS)
@@ -392,8 +610,7 @@ static void prvHandlePowerMode( uint8_t ch )
 		case '6':
 			prvUartPrint("******** CPU is going in VLPS mode...\r\n");
 
-			PINS_DRV_ClearPins(LED_GPIO, (1 << LED1));
-			PINS_DRV_SetPins(LED_GPIO, (1 << LED2));
+			prvLedSetBaseModeSleep();
 
 			retV = POWER_SYS_SetMode(VLPS, POWER_MANAGER_POLICY_AGREEMENT);
 			if (retV == STATUS_SUCCESS)
@@ -430,6 +647,10 @@ static void prvHandlePowerMode( uint8_t ch )
     prvUartPrint("----------------------------------------------------------------------------\r\n");
 }
 
+/*-----------------------------------------------------------*/
+/* ADC IRQ                                                   */
+/*-----------------------------------------------------------*/
+
 void ADC_IRQHandler(void)
 {
     uint16_t adcValue = 0U;
@@ -441,6 +662,8 @@ void ADC_IRQHandler(void)
     g_adcEvent = true;
 }
 
+/*-----------------------------------------------------------*/
+/* UART Task                                                 */
 /*-----------------------------------------------------------*/
 
 static void prvUartTask( void *pvParameters )
@@ -496,8 +719,6 @@ static void prvUartTask( void *pvParameters )
     }
 }
 
-/*-----------------------------------------------------------*/
-
 static void prvQueueSendTask( void *pvParameters )
 {
 TickType_t xNextWakeTime;
@@ -544,10 +765,14 @@ unsigned long ulReceivedValue;
 		is it the expected value?  If it is, toggle the LED. */
 		if( ulReceivedValue == 100UL )
 		{
-		    PINS_DRV_TogglePins(LED_GPIO, (1 << LED2));
+			/* heartbeat LED disabled during CAN debug */
 		}
 	}
 }
+
+/*-----------------------------------------------------------*/
+/* FreeMASTER Task                                           */
+/*-----------------------------------------------------------*/
 
 static void prvFreeMasterTask( void *pvParameters )
 {
@@ -558,6 +783,99 @@ static void prvFreeMasterTask( void *pvParameters )
     for( ;; )
     {
         FMSTR_Poll();
+        vTaskDelay(pdMS_TO_TICKS(1));
+    }
+}
+
+/*-----------------------------------------------------------*/
+/* CAN RX Task                                               */
+/*-----------------------------------------------------------*/
+
+static void prvCanRxTask( void *pvParameters )
+{
+    can_message_t recvMsg;
+
+    (void)pvParameters;
+
+    for (;;)
+    {
+        /* Start receiving data in RX mailbox */
+        CAN_Receive(&can_pal_1_instance, RX_MAILBOX, &recvMsg);
+
+        /* Wait until receive completed */
+        while (CAN_GetTransferStatus(&can_pal_1_instance, RX_MAILBOX) == STATUS_BUSY)
+        {
+            vTaskDelay(pdMS_TO_TICKS(1));
+        }
+
+        if ((recvMsg.data[0] == CAN_TOGGLE_REQUEST) && (recvMsg.id == RX_MSG_ID))
+        {
+            prvLedBluePulseTrigger();
+        }
+    }
+}
+
+static void prvCanTxTask(void *pvParameters)
+{
+    (void)pvParameters;
+
+    for (;;)
+    {
+        if (g_canTxRequest == true)
+        {
+            g_canTxRequest = false;
+            prvCanSendToggleRequest();
+        }
+
+        prvLedService();
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
+}
+
+/*-----------------------------------------------------------*/
+/* CAN Helpers                                               */
+/*-----------------------------------------------------------*/
+
+static void prvCanInit( void )
+{
+    can_buff_config_t buffCfg =
+    {
+        .enableFD = false,
+        .enableBRS = false,
+        .fdPadding = 0U,
+        .idType = CAN_MSG_ID_STD,
+        .isRemote = false
+    };
+
+    CAN_Init(&can_pal_1_instance, &can_pal_1_config);
+
+    /* Configure RX buffer */
+    CAN_ConfigRxBuff(&can_pal_1_instance, RX_MAILBOX, &buffCfg, RX_MSG_ID);
+
+    /* Configure TX buffer */
+    CAN_ConfigTxBuff(&can_pal_1_instance, TX_MAILBOX, &buffCfg);
+}
+
+static void prvCanSendToggleRequest( void )
+{
+    status_t status;
+    can_message_t message =
+    {
+        .cs = 0U,
+        .id = TX_MSG_ID,
+        .data[0] = g_canCommand,
+        .length = 1U
+    };
+
+    status = CAN_Send(&can_pal_1_instance, TX_MAILBOX, &message);
+
+    if (status != STATUS_SUCCESS)
+    {
+        return;
+    }
+
+    while (CAN_GetTransferStatus(&can_pal_1_instance, TX_MAILBOX) == STATUS_BUSY)
+    {
         vTaskDelay(pdMS_TO_TICKS(1));
     }
 }
@@ -618,14 +936,11 @@ static void prvSetupHardware( void )
 	 */
 	LPIT_DRV_StartTimerChannels(INST_LPIT_CONFIG_1, (1UL << LPIT_CHANNEL));
 
-	/* Change LED1, LED2 to outputs. */
-	PINS_DRV_SetPinsDirection(LED_GPIO,  (1 << LED1) | (1 << LED2));
+	/* LED init is centralized in LED Manager. */
+	prvLedInit();
 
-	/* Change BTN1 to input */
-	PINS_DRV_SetPinsDirection(BTN_GPIO, ~(1 << BTN_PIN));
-
-	/* Start with LEDs off. */
-	PINS_DRV_SetPins(LED_GPIO, (1 << LED1) | (1 << LED2));
+	PINS_DRV_SetPinIntSel(BTN_PORT, BTN_PIN, PORT_INT_RISING_EDGE);
+	PINS_DRV_SetPinIntSel(BTN_PORT, CAN_TX_TRIGGER_PIN, PORT_INT_RISING_EDGE);
 
 	/* Install Button interrupt handler */
     INT_SYS_InstallHandler(BTN_PORT_IRQn, vPort_C_ISRHandler, (isr_t *)NULL);
@@ -636,6 +951,8 @@ static void prvSetupHardware( void )
     be equal to or lower than configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY. */
     INT_SYS_SetPriority( BTN_PORT_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY );
 
+    /* CAN init */
+	prvCanInit();
 }
 
 static void prvInitAdcForFreeMaster( void )

@@ -336,6 +336,11 @@
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/edma/doxygen/edma_driver.dox</locationURI>
 		</link>
 		<link>
+			<name>doc/SDK/platform/drivers/src/flexcan/doxygen/flexcan_driver.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/flexcan/doxygen/flexcan_driver.dox</locationURI>
+		</link>
+		<link>
 			<name>doc/SDK/platform/drivers/src/interrupt/doxygen/interrupt.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/interrupt/doxygen/interrupt.dox</locationURI>
@@ -369,6 +374,11 @@
 			<name>doc/SDK/platform/drivers/src/trgmux/doxygen/trgmux_driver.dox</name>
 			<type>1</type>
 			<locationURI>s32sdk_s32k1xx_rtm_403/platform/drivers/src/trgmux/doxygen/trgmux_driver.dox</locationURI>
+		</link>
+		<link>
+			<name>doc/SDK/platform/pal/src/can/doxygen/can_pal.dox</name>
+			<type>1</type>
+			<locationURI>s32sdk_s32k1xx_rtm_403/platform/pal/src/can/doxygen/can_pal.dox</locationURI>
 		</link>
 		<link>
 			<name>doc/SDK/platform/drivers/src/clock/S32K1xx/doxygen/clock_S32K1xx.dox</name>

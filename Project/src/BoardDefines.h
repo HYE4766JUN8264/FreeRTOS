@@ -27,8 +27,9 @@
 #define EVB
 
 #ifdef EVB
-    #define LED1            15U
-    #define LED2            16U
+    #define LED_RED         15U
+    #define LED_GREEN       16U
+    #define LED_BLUE        0U
     #define LED_GPIO        PTD
     #define LED_PORT        PORTD
     #define LED_PORT_PCC    PCC_PORTD_CLOCK
@@ -38,8 +39,9 @@
     #define BTN_PORT_PCC    PCC_PORTC_CLOCK
     #define BTN_PORT_IRQn   PORTC_IRQn
 #else
-    #define LED1            0U
-    #define LED2            1U
+    #define LED_RED         0U
+    #define LED_GREEN       1U
+    #define LED_BLUE        2U
     #define LED_GPIO        PTC
     #define LED_PORT        PORTC
     #define LED_PORT_PCC    PCC_PORTC_CLOCK
@@ -55,8 +57,9 @@
 static inline void boardSetup(void)
 {
     /* Configure ports */
-    PINS_DRV_SetMuxModeSel(LED_PORT, LED1,      PORT_MUX_AS_GPIO);
-    PINS_DRV_SetMuxModeSel(LED_PORT, LED2,      PORT_MUX_AS_GPIO);
+    PINS_DRV_SetMuxModeSel(LED_PORT, LED_RED,   PORT_MUX_AS_GPIO);
+    PINS_DRV_SetMuxModeSel(LED_PORT, LED_GREEN, PORT_MUX_AS_GPIO);
+    PINS_DRV_SetMuxModeSel(LED_PORT, LED_BLUE,  PORT_MUX_AS_GPIO);
     PINS_DRV_SetMuxModeSel(BTN_PORT, BTN_PIN,   PORT_MUX_AS_GPIO);
 #ifdef EVB
     PINS_DRV_SetPinIntSel(BTN_PORT, BTN_PIN, PORT_INT_RISING_EDGE);
@@ -64,4 +67,5 @@ static inline void boardSetup(void)
     PINS_DRV_SetPinIntSel(BTN_PORT, BTN_PIN, PORT_INT_FALLING_EDGE);
 #endif
 }
+
 #endif

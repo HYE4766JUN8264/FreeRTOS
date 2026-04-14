@@ -38,6 +38,7 @@
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/pal/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/FreeMASTER/src_common}&quot;"/>
@@ -131,6 +132,7 @@
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/pal/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/FreeMASTER/src_common}&quot;"/>
@@ -225,6 +227,7 @@
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/pal/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/FreeMASTER/src_common}&quot;"/>
@@ -318,6 +321,7 @@
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/portable/GCC/ARM_CM4F"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/osif"/>
+									<listOptionValue builtIn="false" value="../SDK/platform/pal/inc"/>
 									<listOptionValue builtIn="false" value="../SDK/rtos/FreeRTOS/Source/include"/>
 									<listOptionValue builtIn="false" value="../SDK/platform/drivers/src/lpuart"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/FreeMASTER/src_common}&quot;"/>
@@ -412,9 +416,9 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.core">
-		<sdkComponents>platform.os.freertos;platform.os.freertos_heap_1;platform.os.freertosS32K14x;platform.driver.lpuart;platform.driver.clock;platform.driver.interrupt_manager;platform.driver.pins;platform.driver.edma;platform.driver.osif;platform.driver.osif_freertos;platform.driver.powerS32K1xx;platform.driver.adc;platform.driver.lpit;platform.driver.trgmux</sdkComponents>
+		<sdkComponents>platform.os.freertos;platform.os.freertos_heap_1;platform.os.freertosS32K14x;platform.driver.lpuart;platform.driver.clock;platform.driver.interrupt_manager;platform.driver.pins;platform.driver.edma;platform.driver.osif;platform.driver.osif_freertos;platform.driver.powerS32K1xx;platform.driver.adc;platform.driver.lpit;platform.driver.trgmux;platform.pal.can_pal;platform.driver.flexcan</sdkComponents>
 	</storageModule>
 	<storageModule moduleId="com.nxp.s32ds.cle.uct.internal.core.toolchainScriptProfile">
-		<COND_TOOLCHAIN_COMPONENTS_OPTION>COPY=platform.os.freertosS32K14x;platform.driver.osif_freertos;platform.driver.powerS32K1xx;platform.driver.lpit;platform.os.freertos_heap_1;platform.driver.trgmux;platform.driver.adc;platform.driver.osif;platform.os.freertos;platform.driver.lpuart;platform.driver.edma</COND_TOOLCHAIN_COMPONENTS_OPTION>
+		<COND_TOOLCHAIN_COMPONENTS_OPTION>COPY=platform.driver.osif_freertos;platform.os.freertos_heap_1;platform.driver.trgmux;platform.driver.adc;platform.driver.osif;platform.driver.lpuart;platform.os.freertosS32K14x;platform.driver.powerS32K1xx;platform.driver.lpit;platform.pal.can_pal;platform.os.freertos;platform.driver.edma;platform.driver.flexcan</COND_TOOLCHAIN_COMPONENTS_OPTION>
 	</storageModule>
 </cproject>

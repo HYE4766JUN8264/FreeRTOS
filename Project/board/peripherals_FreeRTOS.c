@@ -63,7 +63,7 @@ instance:
       - configSUPPORT_STATIC_ALLOCATION: 'false'
       - configSUPPORT_DYNAMIC_ALLOCATION: 'true'
       - memory_scheme_id: 'heap1'
-      - configTOTAL_HEAP_SIZE: '8192'
+      - configTOTAL_HEAP_SIZE: '16384'
       - configAPPLICATION_ALLOCATED_HEAP: 'false'
     - hook_tab:
       - configUSE_IDLE_HOOK: 'true'

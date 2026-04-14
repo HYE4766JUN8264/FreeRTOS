@@ -27,6 +27,7 @@
 #include "peripherals_adc_config_1.h"
 #include "peripherals_lpit_config_1.h"
 #include "peripherals_trgmux_1.h"
+#include "peripherals_can_pal_1.h"
 
 
 #endif /* SDK_PROJECT_CONFIG_H_ */
