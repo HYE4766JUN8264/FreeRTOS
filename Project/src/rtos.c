@@ -181,6 +181,7 @@ typedef enum
 static uint8_t g_canCommand = (uint8_t)CAN_TOGGLE_REQUEST;
 
 static volatile bool g_canTxRequest = false;
+static bool g_wdgResetDetected = false;
 
 /*-----------------------------------------------------------*/
 
@@ -821,6 +822,27 @@ static void prvCanTxTask(void *pvParameters)
 
     for (;;)
     {
+        if (g_wdgResetDetected == true)
+        {
+            can_message_t msg =
+            {
+                .cs = 0U,
+                .id = TX_MSG_ID,
+                .data[0] = 0xEE,
+                .length = 1U
+            };
+
+            if (CAN_Send(&can_pal_1_instance, TX_MAILBOX, &msg) == STATUS_SUCCESS)
+            {
+                while (CAN_GetTransferStatus(&can_pal_1_instance, TX_MAILBOX) == STATUS_BUSY)
+                {
+                    vTaskDelay(pdMS_TO_TICKS(1));
+                }
+            }
+
+            g_wdgResetDetected = false;
+        }
+
         if (g_canTxRequest == true)
         {
             g_canTxRequest = false;
@@ -828,6 +850,21 @@ static void prvCanTxTask(void *pvParameters)
         }
 
         prvLedService();
+
+        /* ============================= */
+        /* Watchdog Feed                 */
+        /* ============================= */
+        if (
+            (POWER_SYS_GetCurrentMode() == POWER_MANAGER_RUN) &&
+            (g_adcEvent == true)
+        )
+        {
+            WDG_Refresh(&wdg_pal_1_Instance);
+
+            /* Event Consume */
+            g_adcEvent = false;
+        }
+
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 }
@@ -884,6 +921,12 @@ static void prvCanSendToggleRequest( void )
 
 static void prvSetupHardware( void )
 {
+	uint32_t resetSrc = RCM->SRS;
+
+	if (resetSrc & RCM_SRS_WDOG_MASK)
+	{
+		g_wdgResetDetected = true;
+	}
 
     /* Initialize and configure clocks
      *  -   Setup system clocks, dividers
@@ -902,6 +945,8 @@ static void prvSetupHardware( void )
     PINS_DRV_Init(NUM_OF_CONFIGURED_PINS0, g_pin_mux_InitConfigArr0);
 
     boardSetup();
+
+    WDG_Init(&wdg_pal_1_Instance, &wdg_pal_1_Config0);
 
     /* Power manager is already prepared in this RTOS project.
 	 * We will keep using it for RUN/VLPR/STOP/VLPS transition testing.

@@ -343,6 +343,16 @@
                   <data type="Version">1.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.pal.wdg" description="WDG PAL Driver not found in the toolchain/IDE project. Project will not compile!" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.pal.wdg" description="Unsupported version of the WDG PAL Driver in the toolchain/IDE project. Required: ${required_value}, actual: ${actual_value}. Project might not compile correctly." problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">1.0.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/FreeRTOSConfig.h" update_enabled="true"/>
@@ -367,7 +377,10 @@
             <file path="board/peripherals_power_manager_1.h" update_enabled="true"/>
             <file path="board/peripherals_trgmux_1.c" update_enabled="true"/>
             <file path="board/peripherals_trgmux_1.h" update_enabled="true"/>
+            <file path="board/peripherals_wdg_pal_1.c" update_enabled="true"/>
+            <file path="board/peripherals_wdg_pal_1.h" update_enabled="true"/>
             <file path="board/sdk_project_config.h" update_enabled="true"/>
+            <file path="board/wdg_pal_cfg.h" update_enabled="true"/>
          </generated_project_files>
          <peripherals_profile>
             <processor_version>0.0.0</processor_version>
@@ -764,6 +777,29 @@
                               <setting name="idFormat" value="FLEXCAN_RX_FIFO_ID_FORMAT_A"/>
                               <setting name="idFilterTable" value="NULL"/>
                            </struct>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="wdg_pal_1" uuid="493b353f-d837-493d-b413-506e4960bdf9" type="wdg_pal" type_id="wdg_pal" mode="general" peripheral="WDOG" enabled="true" comment="" custom_name_enabled="true" editing_lock="false">
+                     <config_set name="wdg_pal">
+                        <struct name="wdg_pal_UserConfig">
+                           <array name="wdg_pal_Config">
+                              <struct name="0">
+                                 <setting name="name" value="wdg_pal_1_Config0"/>
+                                 <setting name="readonly" value="true"/>
+                                 <setting name="clkSource" value="WDG_PAL_LPO_CLOCK"/>
+                                 <struct name="opMode">
+                                    <setting name="wait" value="false"/>
+                                    <setting name="stop" value="false"/>
+                                    <setting name="debug" value="true"/>
+                                 </struct>
+                                 <setting name="intEnable" value="true"/>
+                                 <setting name="prescalerEnable" value="true"/>
+                                 <setting name="winEnable" value="false"/>
+                                 <setting name="percentWindow" value="0"/>
+                                 <setting name="timeoutValue" value="10000"/>
+                              </struct>
+                           </array>
                         </struct>
                      </config_set>
                   </instance>
